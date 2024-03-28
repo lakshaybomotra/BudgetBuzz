@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BudgetBuzz</string>
     <string name="welcome_to_budget_planner">Welcome to Budget Planner</string>
     <string name="take_control_of_your_money_and_save_them_by_tracking_your_expenses">Take control of your money and save them by tracking your expenses</string>
     <string name="onboarding_illustrations">OnBoarding Illustrations</string>

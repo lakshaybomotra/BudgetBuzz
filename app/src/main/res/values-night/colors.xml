@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="activity_background">#27274D</color>
+    <color name="text_heading">#FFFFFF</color>
+    <color name="text_description">#A19FC4</color>
+    <color name="login_background">#3E3B68</color>
+</resources>

@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="activity_background">#F7F8FE</color>
+    <color name="text_heading">#1C1C1C</color>
+    <color name="text_description">#656565</color>
+    <color name="login_background">#FFFFFF</color>
 </resources>
