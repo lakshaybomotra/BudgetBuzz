@@ -1,10 +1,9 @@
 package com.lbdev.budgetbuzz.ui.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.lbdev.budgetbuzz.R
+import androidx.appcompat.app.AppCompatActivity
 import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.ActivityVerifyPinBinding
 import com.lbdev.budgetbuzz.ui.viewmodel.ProfileViewModel

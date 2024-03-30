@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/karla_bold"
-            android:text="Used for logging in"
+            android:text="@string/used_for_logging_in"
             android:textColor="@color/text_heading"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +145,7 @@
             android:background="@drawable/green_gradient_bg"
             android:elevation="4dp"
             android:shadowColor="@color/black"
-            android:text="Create Pin"
+            android:text="@string/create_pin"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -191,7 +191,8 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/account_profile_dummy" />
+                android:src="@drawable/account_profile_dummy"
+                android:contentDescription="@string/profile_pic" />
         </androidx.cardview.widget.CardView>
 
         <ImageView
@@ -201,7 +202,8 @@
             android:elevation="8dp"
             android:src="@drawable/camera"
             app:layout_constraintBottom_toBottomOf="@id/profilePicCard"
-            app:layout_constraintEnd_toEndOf="@id/profilePicCard" />
+            app:layout_constraintEnd_toEndOf="@id/profilePicCard"
+            android:contentDescription="@string/change_pic_button" />
 
         <TextView
             android:id="@+id/lookGoodTV"
@@ -264,7 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:hint="Fist and Last name"
+            android:hint="@string/fist_and_last_name"
             app:hintTextColor="@color/text_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -286,7 +288,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:hint="Email Address"
+            android:hint="@string/email_address"
             app:hintTextColor="@color/text_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

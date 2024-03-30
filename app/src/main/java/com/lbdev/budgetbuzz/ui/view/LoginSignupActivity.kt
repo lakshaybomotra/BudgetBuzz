@@ -77,9 +77,15 @@ class LoginSignupActivity : AppCompatActivity() {
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                if (e is FirebaseAuthInvalidCredentialsException) {
-                } else if (e is FirebaseTooManyRequestsException) {
-                } else if (e is FirebaseAuthMissingActivityForRecaptchaException) {
+                when (e) {
+                    is FirebaseAuthInvalidCredentialsException -> {
+                    }
+
+                    is FirebaseTooManyRequestsException -> {
+                    }
+
+                    is FirebaseAuthMissingActivityForRecaptchaException -> {
+                    }
                 }
             }
 
@@ -145,8 +151,6 @@ class LoginSignupActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     lsBinding.progressBar.visibility = View.INVISIBLE
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                    val user = task.result?.user
-
                     startActivity(Intent(this, CreateProfileActivity::class.java))
                     finish()
                 } else {

@@ -18,4 +18,12 @@
     <string name="more_about_you">More about you</string>
     <string name="it_look_s_great">It look\'s great :)</string>
     <string name="add_your_personal_details">Add your personal details</string>
+    <string name="verify_passcode">Verify Passcode</string>
+    <string name="verify">Verify</string>
+    <string name="used_for_logging_in">Used for logging in</string>
+    <string name="create_pin">Create Pin</string>
+    <string name="profile_pic">profile pic</string>
+    <string name="change_pic_button">change pic button</string>
+    <string name="fist_and_last_name">Fist and Last name</string>
+    <string name="email_address">Email Address</string>
 </resources>
