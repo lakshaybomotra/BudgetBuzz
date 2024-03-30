@@ -1,4 +1,4 @@
-package com.lbdev.budgetbuzz
+package com.lbdev.budgetbuzz.ui.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,9 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.lbdev.budgetbuzz.Adaptors.IntroSlide
-import com.lbdev.budgetbuzz.Adaptors.OnBoardingAdaptor
+import com.lbdev.budgetbuzz.ui.adaptor.OnBoardingAdaptor
+import com.lbdev.budgetbuzz.R
+import com.lbdev.budgetbuzz.data.model.IntroSlide
 import com.lbdev.budgetbuzz.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

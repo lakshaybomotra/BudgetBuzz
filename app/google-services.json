@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "345120442266",
+    "project_id": "budgetbuzz-4f7ff",
+    "storage_bucket": "budgetbuzz-4f7ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345120442266:android:a3ad3627d4c1d71a899c23",
+        "android_client_info": {
+          "package_name": "com.lbdev.budgetbuzz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEzAIdZW9kD3MrwWIoIpbUL04HMpVbAvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

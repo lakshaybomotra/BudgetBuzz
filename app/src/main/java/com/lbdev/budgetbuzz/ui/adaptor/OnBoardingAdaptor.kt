@@ -1,4 +1,4 @@
-package com.lbdev.budgetbuzz.Adaptors
+package com.lbdev.budgetbuzz.ui.adaptor
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.lbdev.budgetbuzz.R
+import com.lbdev.budgetbuzz.data.model.IntroSlide
 
 class OnBoardingAdaptor(private val introSlides: List<IntroSlide>)
     : RecyclerView.Adapter<OnBoardingAdaptor.IntroSlideViewHolder>(){
@@ -20,7 +21,7 @@ class OnBoardingAdaptor(private val introSlides: List<IntroSlide>)
         )
     }
 
-    override fun onBindViewHolder(holder: OnBoardingAdaptor.IntroSlideViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: IntroSlideViewHolder, position: Int) {
         holder.bind(introSlides[position])
     }
 
@@ -41,9 +42,3 @@ class OnBoardingAdaptor(private val introSlides: List<IntroSlide>)
         }
     }
 }
-
-data class IntroSlide(
-    val title: String,
-    val description: String,
-    val image: Int
-)

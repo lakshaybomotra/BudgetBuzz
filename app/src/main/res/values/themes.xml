@@ -1,8 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.BudgetBuzz" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Base.Theme.BudgetBuzz" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">#D2D2D2</item>
+        <item name="pinViewStyle">@style/PinWidget.PinView</item>
     </style>
 
     <style name="Theme.BudgetBuzz" parent="Base.Theme.BudgetBuzz" />
