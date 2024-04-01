@@ -2,10 +2,7 @@ package com.lbdev.budgetbuzz.ui.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.room.Room
-import com.lbdev.budgetbuzz.data.db.AppDatabase
 import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.ActivityVerifyPinBinding
 import com.lbdev.budgetbuzz.ui.base.BaseActivity

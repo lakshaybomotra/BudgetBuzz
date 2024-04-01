@@ -1,12 +1,7 @@
 package com.lbdev.budgetbuzz.ui.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.room.Room
-import com.lbdev.budgetbuzz.R
-import com.lbdev.budgetbuzz.data.db.AppDatabase
 import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.ActivityHomeBinding
 import com.lbdev.budgetbuzz.ui.base.BaseActivity
@@ -26,7 +21,7 @@ class HomeActivity : BaseActivity() {
 
         profileViewModel.getUserProfile(auth.uid!!).observe(this) { profile ->
             if (profile != null) {
-                homeBinding.textView.text = profile.name
+
             }
         }
     }
