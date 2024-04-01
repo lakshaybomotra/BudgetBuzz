@@ -5,14 +5,19 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.lbdev.budgetbuzz.data.db.dao.UserProfileDao
 import com.lbdev.budgetbuzz.data.model.Profile
 import java.io.ByteArrayOutputStream
 import java.util.UUID
 
-class ProfileRepository {
+class ProfileRepository(private val userProfileDao: UserProfileDao) {
     private val storage = Firebase.storage
     private val storageRef = storage.reference
     private val fireStoreDB = FirebaseFirestore.getInstance()
+
+    fun getUserProfile(uid: String) = userProfileDao.getProfile(uid)
+
+    suspend fun saveUserProfile(profile: Profile) = userProfileDao.insertProfile(profile)
 
     fun saveProfileImage(image: Bitmap, callback: (String?, Exception?) -> Unit) {
         val imageName = UUID.randomUUID().toString()

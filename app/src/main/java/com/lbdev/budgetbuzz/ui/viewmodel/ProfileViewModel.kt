@@ -4,8 +4,10 @@ import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lbdev.budgetbuzz.data.model.Profile
 import com.lbdev.budgetbuzz.data.repository.ProfileRepository
+import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewModel() {
 
@@ -18,6 +20,13 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     private val _imageUrl = MutableLiveData<String?>()
     val imageUrl: LiveData<String?> = _imageUrl
 
+    fun getUserProfile(uid: String): LiveData<Profile> = profileRepository.getUserProfile(uid)
+
+    fun saveUserProfile(userProfile: Profile) {
+        viewModelScope.launch {
+            profileRepository.saveUserProfile(userProfile)
+        }
+    }
     fun saveProfilePicToStorage(image: Bitmap) {
         profileRepository.saveProfileImage(image) { imageUrl, exception ->
             if (exception != null) {

@@ -25,6 +25,7 @@ import com.google.firebase.ktx.Firebase
 import com.lbdev.budgetbuzz.data.model.Profile
 import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.ActivityCreateProfileBinding
+import com.lbdev.budgetbuzz.ui.base.BaseActivity
 import com.lbdev.budgetbuzz.ui.viewmodel.ProfileViewModel
 import com.lbdev.budgetbuzz.util.ProfileViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -33,11 +34,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executor
 
-class CreateProfileActivity : AppCompatActivity() {
+class CreateProfileActivity : BaseActivity() {
     lateinit var cpBinding: ActivityCreateProfileBinding
-    private lateinit var auth: FirebaseAuth
     private val profileViewModel: ProfileViewModel by viewModels {
-        ProfileViewModelFactory(ProfileRepository())
+        ProfileViewModelFactory(ProfileRepository(db.userProfileDao()))
     }
 
     private lateinit var profilePic: Bitmap
@@ -136,7 +136,12 @@ class CreateProfileActivity : AppCompatActivity() {
         profileViewModel.imageUrl.observe(this) { imageUrl ->
             if (imageUrl != null) {
                 val profile = Profile(
-                    email, name, pin, auth.currentUser!!.phoneNumber!!, auth.uid!!, imageUrl
+                    auth.uid!!,
+                    email,
+                    name,
+                    pin,
+                    auth.currentUser?.phoneNumber!!,
+                    imageUrl
                 )
                 profileViewModel.saveProfileToDatabase(profile)
             }
