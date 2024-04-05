@@ -19,12 +19,18 @@ import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
 import coil.decode.SvgDecoder
 import coil.load
+import com.google.firebase.Timestamp
 import com.lbdev.budgetbuzz.R
+import com.lbdev.budgetbuzz.data.model.Category
+import com.lbdev.budgetbuzz.data.model.Expense
+import com.lbdev.budgetbuzz.data.model.Income
 import com.lbdev.budgetbuzz.data.repository.CategoriesRepository
+import com.lbdev.budgetbuzz.data.repository.TransactionsRepository
 import com.lbdev.budgetbuzz.databinding.FragmentAddTransactionBinding
 import com.lbdev.budgetbuzz.ui.adaptor.PagerAdapter
 import com.lbdev.budgetbuzz.ui.viewmodel.CategoryViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.SharedViewModel
+import com.lbdev.budgetbuzz.ui.viewmodel.TransactionViewModel
 import java.util.Calendar
 
 class AddTransactionFragment : Fragment() {
@@ -34,6 +40,9 @@ class AddTransactionFragment : Fragment() {
     private lateinit var pageIndicator: LinearLayout
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var categoriesRepository: CategoriesRepository
+    private lateinit var transactionViewModel: TransactionViewModel
+    private lateinit var transactionsRepository: TransactionsRepository
+    lateinit var expenseDate: Timestamp
     private val months = arrayOf(
         "January",
         "February",
@@ -51,9 +60,11 @@ class AddTransactionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var selectedItem = Category()
 
         sharedViewModel.selectedItem.observe(viewLifecycleOwner) { item ->
             if (item.name == "Select a category") {
+                selectedItem = item
                 binding.categoryTV.text = item.name
                 binding.addTransactionAppBar.setBackgroundColor(
                     ContextCompat.getColor(
@@ -61,6 +72,7 @@ class AddTransactionFragment : Fragment() {
                     )
                 )
             } else {
+                selectedItem = item
                 binding.categoryTV.text = item.name
                 val gradientDrawable = GradientDrawable(
                     GradientDrawable.Orientation.BL_TR,
@@ -234,17 +246,46 @@ class AddTransactionFragment : Fragment() {
                 binding.amountET.error = "Enter Amount"
                 return@setOnClickListener
             }
-            Toast.makeText(
-                requireContext(),
-                "Date => " + binding.dateTV.text.toString() + "\n" + "Category => " + sharedViewModel.selectedItem.value?.name,
-                Toast.LENGTH_LONG
-            ).show()
+            binding.transactionSubmitBtn.isEnabled = false
 
-            Toast.makeText(
-                requireContext(),
-                "Amount => " + binding.amountET.text.toString(),
-                Toast.LENGTH_SHORT
-            ).show()
+            if (selectedItem.type == "Expense")
+            {
+                val expense = Expense(
+                    selectedItem.name,
+                    binding.amountET.text.toString(),
+                    expenseDate,
+                    binding.transactionNote.text.toString()
+                )
+
+                transactionViewModel.saveUserExpenseToDatabase(expense)
+            } else {
+                val income = Income(
+                    selectedItem.name,
+                    binding.amountET.text.toString(),
+                    expenseDate,
+                    binding.transactionNote.text.toString()
+                )
+
+                transactionViewModel.saveUserIncomeToDatabase(income)
+            }
+
+            transactionViewModel.savedTransaction.observe(viewLifecycleOwner) {
+                binding.transactionSubmitBtn.isEnabled = true
+                Toast.makeText(
+                    requireContext(), "Transaction Saved", Toast.LENGTH_SHORT
+                ).show()
+                val transaction = parentFragmentManager.beginTransaction()
+                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                transaction.remove(this)
+                transaction.commit()
+            }
+
+            transactionViewModel.error.observe(viewLifecycleOwner) { error ->
+                binding.transactionSubmitBtn.isEnabled = true
+                Toast.makeText(
+                    requireContext(), error, Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -255,6 +296,8 @@ class AddTransactionFragment : Fragment() {
         val view = binding.root
         categoriesRepository = CategoriesRepository()
         categoryViewModel = CategoryViewModel(categoriesRepository)
+        transactionsRepository = TransactionsRepository()
+        transactionViewModel = TransactionViewModel(transactionsRepository)
         categoryViewModel.loadExpenseCategories()
         categoryViewModel.loadIncomeCategories()
         sharedViewModel.removeSelectedItem()
@@ -268,6 +311,7 @@ class AddTransactionFragment : Fragment() {
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
+        expenseDate = Timestamp(java.util.Date(year - 1900, month, day))
         val currentDate = "$day ${months[month]} $year"
         binding.dateTV.text = currentDate
         binding.amountET.requestFocus()
@@ -330,6 +374,21 @@ class AddTransactionFragment : Fragment() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, year, month, dayOfMonth ->
+//                 val selectedDateTimestamp = Timestamp(
+//                    java.util.Date(
+//                        year - 1900,
+//                        month,
+//                        dayOfMonth
+//                    ))
+
+//                if (selectedDateTimestamp.toDate()>fromDateTimestamp.toDate() && selectedDateTimestamp.toDate()<toDateTimestamp.toDate()) {
+//                    Toast.makeText(
+//                        requireContext(), "In range", Toast.LENGTH_SHORT
+//                    ).show()
+//                    return@DatePickerDialog
+//                }
+
+                expenseDate = Timestamp(java.util.Date(year - 1900, month, dayOfMonth))
                 val currentDate = "$dayOfMonth ${months[month]} $year"
                 binding.dateTV.text = currentDate
             },
