@@ -1,8 +1,31 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.BudgetBuzz" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-         <item name="colorPrimary">#484A77</item>
+        <item name="colorPrimary">#484A77</item>
+        <item name="colorPrimaryVariant">#484A77</item>
+        <item name="colorOnPrimary">#000</item>
         <item name="pinViewStyle">@style/PinWidget.PinView</item>
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="colorPrimary">@color/green_main</item>
+        <item name="colorOnSurface">@color/nav_icon_color_inactive</item>
+        <item name="colorSurface">@color/green_main</item>
+    </style>
+
+    <style name="ShapeAppearance.MyApp.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ThemeOverlay.BudgetBuzz.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
     </style>
 </resources>

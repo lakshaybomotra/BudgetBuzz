@@ -6,4 +6,7 @@
     <color name="text_heading">#FFFFFF</color>
     <color name="text_description">#A19FC4</color>
     <color name="login_background">#3E3B68</color>
+    <color name="nav_icon_color_inactive">#A19FC4</color>
+    <color name="green_main">#2DC897</color>
+    <color name="add_transaction_app_bar">#27274D</color>
 </resources>

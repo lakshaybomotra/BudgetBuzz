@@ -2,8 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="expense_button">#F07590</color>
+    <color name="income_button">#4fab9a</color>
     <color name="activity_background">#F7F8FE</color>
     <color name="text_heading">#1C1C1C</color>
     <color name="text_description">#656565</color>
     <color name="login_background">#FFFFFF</color>
+    <color name="nav_icon_color_inactive">#979797</color>
+    <color name="green_main">#2DC897</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="add_transaction_app_bar">#FFFFFF</color>
 </resources>

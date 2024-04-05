@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transactionConstraintMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_background"
+    android:theme="@style/ThemeOverlay.BudgetBuzz.FullscreenContainer"
+    tools:context=".ui.view.AddTransactionFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/addTransactionAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/closeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/cancel"
+                android:textColor="@color/text_heading"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/closeBtn">
+
+                <TextView
+                    android:id="@+id/categoryTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/select_a_category"
+                    android:textColor="@color/text_heading"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:id="@+id/operatorSign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/currencySignTV"
+                    android:text="@string/minusSign"
+                    android:textColor="@color/text_heading"
+                    android:textSize="30sp"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/currencySignTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/amountET"
+                    android:text="@string/currencySign"
+                    android:textColor="@color/text_heading"
+                    android:textSize="30sp" />
+
+                <EditText
+                    android:id="@+id/amountET"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@null"
+                    android:hint="@string/amount_hint_000"
+                    android:inputType="numberDecimal"
+                    android:maxWidth="100dp"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
+                    android:textSize="30sp" />
+
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.2"
+            android:background="@color/text_heading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transactionCategoryCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="20dp"
+        android:visibility="visible"
+        app:cardBackgroundColor="@color/activity_background"
+        app:cardCornerRadius="1dp"
+        app:cardElevation="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addTransactionAppBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="10dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/expense_button"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="43dp"
+                app:cardBackgroundColor="@color/expense_button"
+                app:layout_constraintEnd_toStartOf="@+id/income_button"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/text_heading"
+                app:strokeWidth="0dp">
+
+                <TextView
+                    android:id="@+id/expense_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/expense"
+                    android:textColor="@color/white" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/income_button"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                app:cardBackgroundColor="@color/activity_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/expense_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/text_heading"
+                app:strokeWidth="1dp">
+
+                <TextView
+                    android:id="@+id/income_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/income"
+                    android:textColor="@color/text_heading" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/income_button" />
+
+            <LinearLayout
+                android:id="@+id/categoryPageIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewPager" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transactionDetailsCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="@color/activity_background"
+        app:cardCornerRadius="1dp"
+        app:cardElevation="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addTransactionAppBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/detailsTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/karla_bold"
+                android:text="@string/details"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailsTv">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/custom_input_field"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/calendarIconIV"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/calendar"
+                        app:tint="@color/green_main"
+                        android:contentDescription="@string/calendarIcon" />
+
+                    <TextView
+                        android:id="@+id/dateTV"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="4"
+                        android:autoSizeTextType="uniform"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:padding="8dp"
+                        android:textSize="30sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/custom_input_field"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/categoryIconIV"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="0.5"
+                        app:tint="@color/green_main"
+                        android:contentDescription="@string/selectedCategoryicon" />
+
+                    <TextView
+                        android:id="@+id/selectedCategoryTV"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="4"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:padding="4dp"
+                        android:textSize="30sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/custom_input_field"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/noteIconIV"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/note_icon"
+                        app:tint="@color/green_main"
+                        android:contentDescription="@string/noteIcon" />
+
+                    <EditText
+                        android:id="@+id/transactionNote"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="4"
+                        android:autoSizeTextType="uniform"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/transaction_note" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/transactionContinueBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/green_main"
+        android:elevation="4dp"
+        android:shadowColor="@color/black"
+        android:text="@string/continue_btn"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transactionCategoryCard" />
+
+    <Button
+        android:id="@+id/transactionSubmitBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/green_main"
+        android:elevation="4dp"
+        android:shadowColor="@color/black"
+        android:text="@string/add_transaction"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transactionCategoryCard" />
+</androidx.constraintlayout.widget.ConstraintLayout>

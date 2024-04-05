@@ -26,4 +26,22 @@
     <string name="change_pic_button">change pic button</string>
     <string name="fist_and_last_name">Fist and Last name</string>
     <string name="email_address">Email Address</string>
+    <string name="select_a_category">Select a category</string>
+    <string name="activity">Activity</string>
+    <string name="overview">Overview</string>
+    <string name="budget">Budget</string>
+    <string name="profile">Profile</string>
+    <string name="category_icon">Category Icon</string>
+    <string name="cancel">Cancel</string>
+    <string name="minusSign">-</string>
+    <string name="currencySign">$</string>
+    <string name="amount_hint_000">000</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="details">Details</string>
+    <string name="selectedCategoryicon">selectedCategoryIcon</string>
+    <string name="noteIcon">NoteIcon</string>
+    <string name="transaction_note">Transaction Note</string>
+    <string name="add_transaction">Add Transaction</string>
+    <string name="calendarIcon">calendarIcon</string>
 </resources>

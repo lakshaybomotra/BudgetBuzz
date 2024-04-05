@@ -1,0 +1,46 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categoryCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:elevation="8dp"
+    app:cardBackgroundColor="@color/activity_background"
+    app:cardCornerRadius="4dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/categoryIconImageView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:src="@drawable/overview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteY="8dp"
+            android:contentDescription="@string/category_icon" />
+
+        <TextView
+            android:id="@+id/categoryNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:autoSizeTextType="uniform"
+            android:layout_marginTop="4dp"
+            android:maxLines="1"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/categoryIconImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="8dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
