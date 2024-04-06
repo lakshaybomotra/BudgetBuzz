@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/karla_regular"
                 android:text="@string/cancel"
                 android:textColor="@color/text_heading"
                 android:textSize="16sp"
@@ -52,15 +53,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
+                    android:fontFamily="@font/karla_bold"
                     android:text="@string/select_a_category"
                     android:textColor="@color/text_heading"
-                    android:textSize="26sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/operatorSign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/currencySignTV"
+                    android:fontFamily="@font/karla_bold"
                     android:text="@string/minusSign"
                     android:textColor="@color/text_heading"
                     android:textSize="30sp"
@@ -71,6 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/amountET"
+                    android:fontFamily="@font/karla_bold"
                     android:text="@string/currencySign"
                     android:textColor="@color/text_heading"
                     android:textSize="30sp" />
@@ -81,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:background="@null"
+                    android:fontFamily="@font/karla_bold"
                     android:hint="@string/amount_hint_000"
                     android:inputType="numberDecimal"
                     android:maxWidth="100dp"
@@ -142,9 +147,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/karla_regular"
                     android:gravity="center"
                     android:text="@string/expense"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -165,9 +172,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/karla_regular"
                     android:gravity="center"
                     android:text="@string/income"
-                    android:textColor="@color/text_heading" />
+                    android:textColor="@color/text_heading"
+                    android:textSize="16sp" />
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.viewpager2.widget.ViewPager2
@@ -244,9 +253,9 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="15dp"
                         android:layout_weight="0.5"
+                        android:contentDescription="@string/calendarIcon"
                         android:src="@drawable/calendar"
-                        app:tint="@color/green_main"
-                        android:contentDescription="@string/calendarIcon" />
+                        app:tint="@color/green_main" />
 
                     <TextView
                         android:id="@+id/dateTV"
@@ -255,6 +264,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_weight="4"
                         android:autoSizeTextType="uniform"
+                        android:fontFamily="@font/karla_regular"
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:padding="8dp"
@@ -277,8 +287,8 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="15dp"
                         android:layout_weight="0.5"
-                        app:tint="@color/green_main"
-                        android:contentDescription="@string/selectedCategoryicon" />
+                        android:contentDescription="@string/selectedCategoryicon"
+                        app:tint="@color/green_main" />
 
                     <TextView
                         android:id="@+id/selectedCategoryTV"
@@ -286,6 +296,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:layout_weight="4"
+                        android:fontFamily="@font/karla_regular"
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:padding="4dp"
@@ -309,9 +320,9 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="15dp"
                         android:layout_weight="0.5"
+                        android:contentDescription="@string/noteIcon"
                         android:src="@drawable/note_icon"
-                        app:tint="@color/green_main"
-                        android:contentDescription="@string/noteIcon" />
+                        app:tint="@color/green_main" />
 
                     <EditText
                         android:id="@+id/transactionNote"
@@ -321,6 +332,7 @@
                         android:layout_weight="4"
                         android:autoSizeTextType="uniform"
                         android:background="@null"
+                        android:fontFamily="@font/karla_regular"
                         android:gravity="center_vertical"
                         android:hint="@string/transaction_note" />
 
@@ -337,6 +349,7 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/green_main"
         android:elevation="4dp"
+        android:fontFamily="@font/karla_bold"
         android:shadowColor="@color/black"
         android:text="@string/continue_btn"
         android:textAllCaps="false"
@@ -356,6 +369,7 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/green_main"
         android:elevation="4dp"
+        android:fontFamily="@font/karla_bold"
         android:shadowColor="@color/black"
         android:text="@string/add_transaction"
         android:textAllCaps="false"
