@@ -2,16 +2,16 @@ package com.lbdev.budgetbuzz.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.lbdev.budgetbuzz.data.model.Expense
-import com.lbdev.budgetbuzz.data.model.Income
+import com.lbdev.budgetbuzz.data.model.Transaction
 
 class TransactionsRepository {
     private val fireStoreDB = FirebaseFirestore.getInstance()
 
-    fun saveExpense(expense: Expense, callback: (Boolean, Exception?) -> Unit) {
+    fun saveTransaction(transaction: Transaction, callback: (Boolean, Exception?) -> Unit) {
         FirebaseAuth.getInstance().currentUser?.uid?.let { uid ->
-            val documentReference = fireStoreDB.collection("Users").document(uid).collection("Expenses").document()
-            documentReference.set(expense)
+            val documentReference =
+                fireStoreDB.collection("Users").document(uid).collection("Transactions").document()
+            documentReference.set(transaction)
                 .addOnSuccessListener {
                     callback(true, null)
                 }.addOnFailureListener { exception ->
@@ -20,15 +20,15 @@ class TransactionsRepository {
         } ?: callback(false, Exception("User not logged in"))
     }
 
-    fun saveIncome(income: Income, callback: (Boolean, Exception?) -> Unit) {
+    fun getTransactions(callback: (List<Transaction>, Exception?) -> Unit) {
         FirebaseAuth.getInstance().currentUser?.uid?.let { uid ->
-            val documentReference = fireStoreDB.collection("Users").document(uid).collection("Incomes").document()
-            documentReference.set(income)
-                .addOnSuccessListener {
-                    callback(true, null)
+            fireStoreDB.collection("Users").document(uid).collection("Transactions").get()
+                .addOnSuccessListener { result ->
+                    val transaction = result.toObjects(Transaction::class.java)
+                    callback(transaction, null)
                 }.addOnFailureListener { exception ->
-                    callback(false, exception)
+                    callback(emptyList(), exception)
                 }
-        } ?: callback(false, Exception("User not logged in"))
+        } ?: callback(emptyList(), Exception("User not logged in"))
     }
 }

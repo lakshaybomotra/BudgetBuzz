@@ -44,4 +44,15 @@
     <string name="transaction_note">Transaction Note</string>
     <string name="add_transaction">Add Transaction</string>
     <string name="calendarIcon">calendarIcon</string>
+    <string name="you_don_t_have_any_transactions_nright_now_but_you_can">You don’t have any transactions\nright now, but you can</string>
+    <string name="start_adding_one_by_pressing_nthe_plus_icon_from_the_bottom_menu">Start adding one by pressing\nthe plus icon from the bottom menu</string>
+    <string name="plusSign">+</string>
+    <string name="earned">Earned</string>
+    <string name="incomes_this_month">Incomes this month</string>
+    <string name="expense_this_month">Expense this month</string>
+    <string name="spent">Spent</string>
+    <string name="no_transaction_image">No Transaction Image</string>
+    <string name="zero">0</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="you_don_t_have_any_transactions_n_in_selected_filter">You don’t have any transactions\n in selected filter</string>
 </resources>

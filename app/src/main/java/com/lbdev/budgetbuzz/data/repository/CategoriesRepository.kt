@@ -39,4 +39,16 @@ class CategoriesRepository {
                 callback(emptyList(), exception)
             }
     }
+
+    fun getCategories(callback: (List<Category>, Exception?) -> Unit) {
+        val documentReference = fireStoreDB.collection("Categories")
+        documentReference.get()
+            .addOnSuccessListener { result ->
+                val categories = result.toObjects(Category::class.java)
+                callback(categories, null)
+            }
+            .addOnFailureListener { exception ->
+                callback(emptyList(), exception)
+            }
+    }
 }

@@ -9,6 +9,7 @@ class SharedViewModel : ViewModel() {
     val selectedItem: MutableLiveData<Category> = MutableLiveData()
     val expenseCategories: MutableLiveData<List<Category>> = MutableLiveData()
     val incomeCategories: MutableLiveData<List<Category>> = MutableLiveData()
+    val isTransactionAdded: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun removeSelectedItem() {
         selectedItem.value = Category(

@@ -1,5 +1,6 @@
 package com.lbdev.budgetbuzz.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lbdev.budgetbuzz.data.model.Category
@@ -13,12 +14,6 @@ class CategoryViewModel(private val categoriesRepository: CategoriesRepository) 
     private val _incomeCategories = MutableLiveData<List<Category>>()
     val incomeCategories: MutableLiveData<List<Category>> = _incomeCategories
 
-
-//    fun loadCategories() {
-//        expenseCategories.value = loadExpenseCategories()
-//        incomeCategories.value = loadIncomeCategories()
-//    }
-
     fun loadExpenseCategories() {
         categoriesRepository.getExpenseCategories { categories, exception ->
             _expenseCategories.postValue(categories)
@@ -30,9 +25,11 @@ class CategoryViewModel(private val categoriesRepository: CategoriesRepository) 
             _incomeCategories.postValue(categories)
         }
     }
-    fun saveCategory(category: Category, callback: (Boolean, Exception?) -> Unit) {
-        categoriesRepository.saveCategory(category) { success, exception ->
-            callback(success, exception)
+
+    fun loadCategories() {
+        categoriesRepository.getCategories { categories, exception ->
+            _expenseCategories.value = categories.filter { it.type == "Expense" }
+            _incomeCategories.value =  categories.filter { it.type == "Income" }
         }
     }
 }

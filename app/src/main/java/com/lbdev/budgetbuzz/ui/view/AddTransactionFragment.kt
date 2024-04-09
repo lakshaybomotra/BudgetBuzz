@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,15 +23,14 @@ import coil.load
 import com.google.firebase.Timestamp
 import com.lbdev.budgetbuzz.R
 import com.lbdev.budgetbuzz.data.model.Category
-import com.lbdev.budgetbuzz.data.model.Expense
-import com.lbdev.budgetbuzz.data.model.Income
+import com.lbdev.budgetbuzz.data.model.Transaction
 import com.lbdev.budgetbuzz.data.repository.CategoriesRepository
 import com.lbdev.budgetbuzz.data.repository.TransactionsRepository
 import com.lbdev.budgetbuzz.databinding.FragmentAddTransactionBinding
 import com.lbdev.budgetbuzz.ui.adaptor.PagerAdapter
 import com.lbdev.budgetbuzz.ui.viewmodel.CategoryViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.SharedViewModel
-import com.lbdev.budgetbuzz.ui.viewmodel.TransactionViewModel
+import com.lbdev.budgetbuzz.ui.viewmodel.TransactionsViewModel
 import java.util.Calendar
 
 class AddTransactionFragment : Fragment() {
@@ -38,10 +38,10 @@ class AddTransactionFragment : Fragment() {
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
     private lateinit var pageIndicator: LinearLayout
-    private lateinit var categoryViewModel: CategoryViewModel
-    private lateinit var categoriesRepository: CategoriesRepository
-    private lateinit var transactionViewModel: TransactionViewModel
+    private lateinit var transactionsViewModel: TransactionsViewModel
     private lateinit var transactionsRepository: TransactionsRepository
+    private lateinit var categoryViewModel: CategoryViewModel
+    private lateinit var categoryRepository: CategoriesRepository
     lateinit var expenseDate: Timestamp
     private val months = arrayOf(
         "January",
@@ -184,6 +184,7 @@ class AddTransactionFragment : Fragment() {
                 )
             )
             sharedViewModel.incomeCategories.observe(viewLifecycleOwner) { list ->
+                Log.e("lakshay add", "onViewCreated: " + list[0].name)
                 val adapter = PagerAdapter(requireActivity(), list.size, IncomeFragment())
                 viewPager.adapter = adapter
                 removeIndicator()
@@ -248,29 +249,34 @@ class AddTransactionFragment : Fragment() {
             }
             binding.transactionSubmitBtn.isEnabled = false
 
-            if (selectedItem.type == "Expense")
-            {
-                val expense = Expense(
-                    selectedItem.name,
+            if (selectedItem.type == "Expense") {
+                val expense = Transaction(
+                    sharedViewModel.expenseCategories.value?.find { category -> category.name == selectedItem.name }!!,
                     binding.amountET.text.toString(),
                     expenseDate,
-                    binding.transactionNote.text.toString()
+                    binding.transactionNote.text.toString(),
+                    "Expense"
                 )
 
-                transactionViewModel.saveUserExpenseToDatabase(expense)
+                transactionsViewModel.saveUserTransaction(expense)
             } else {
-                val income = Income(
-                    selectedItem.name,
+                val income = Transaction(
+                    sharedViewModel.incomeCategories.value?.find { category -> category.name == selectedItem.name }!!,
                     binding.amountET.text.toString(),
                     expenseDate,
-                    binding.transactionNote.text.toString()
+                    binding.transactionNote.text.toString(),
+                    "Income"
                 )
 
-                transactionViewModel.saveUserIncomeToDatabase(income)
+                transactionsViewModel.saveUserTransaction(income)
             }
 
-            transactionViewModel.savedTransaction.observe(viewLifecycleOwner) {
+
+            transactionsViewModel.savedTransaction.observe(viewLifecycleOwner) {
                 binding.transactionSubmitBtn.isEnabled = true
+
+                sharedViewModel.isTransactionAdded.value = true
+
                 Toast.makeText(
                     requireContext(), "Transaction Saved", Toast.LENGTH_SHORT
                 ).show()
@@ -280,7 +286,7 @@ class AddTransactionFragment : Fragment() {
                 transaction.commit()
             }
 
-            transactionViewModel.error.observe(viewLifecycleOwner) { error ->
+            transactionsViewModel.error.observe(viewLifecycleOwner) { error ->
                 binding.transactionSubmitBtn.isEnabled = true
                 Toast.makeText(
                     requireContext(), error, Toast.LENGTH_SHORT
@@ -294,19 +300,11 @@ class AddTransactionFragment : Fragment() {
     ): View {
         _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
         val view = binding.root
-        categoriesRepository = CategoriesRepository()
-        categoryViewModel = CategoryViewModel(categoriesRepository)
         transactionsRepository = TransactionsRepository()
-        transactionViewModel = TransactionViewModel(transactionsRepository)
-        categoryViewModel.loadExpenseCategories()
-        categoryViewModel.loadIncomeCategories()
+        transactionsViewModel = TransactionsViewModel(transactionsRepository)
+        categoryRepository = CategoriesRepository()
+        categoryViewModel = CategoryViewModel(categoryRepository)
         sharedViewModel.removeSelectedItem()
-        categoryViewModel.expenseCategories.observe(viewLifecycleOwner) { list ->
-            sharedViewModel.addExpenseCategory(list)
-        }
-        categoryViewModel.incomeCategories.observe(viewLifecycleOwner) { list ->
-            sharedViewModel.addIncomeCategory(list)
-        }
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
