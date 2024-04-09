@@ -1,6 +1,5 @@
 package com.lbdev.budgetbuzz.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lbdev.budgetbuzz.data.model.Category
@@ -29,7 +28,7 @@ class CategoryViewModel(private val categoriesRepository: CategoriesRepository) 
     fun loadCategories() {
         categoriesRepository.getCategories { categories, exception ->
             _expenseCategories.value = categories.filter { it.type == "Expense" }
-            _incomeCategories.value =  categories.filter { it.type == "Income" }
+            _incomeCategories.value = categories.filter { it.type == "Income" }
         }
     }
 }
