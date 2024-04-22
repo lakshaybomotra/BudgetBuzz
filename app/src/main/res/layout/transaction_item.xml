@@ -30,9 +30,9 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
+                android:contentDescription="@string/category_icon"
                 android:src="@drawable/calendar"
-                app:tint="@color/white"
-                android:contentDescription="@string/category_icon" />
+                app:tint="@color/white" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -40,8 +40,8 @@
             android:id="@+id/llTransactionDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/llDateTransaction"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/llDateTransaction"
             android:layout_toEndOf="@id/cvTransactionType"
             android:orientation="vertical">
 
@@ -75,8 +75,8 @@
                 android:id="@+id/tvTransactionDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_gravity="end"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
                 android:maxLines="1"
                 android:textColor="@color/text_description"
@@ -97,14 +97,17 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/karla_bold"
                     android:text="@string/minusSign"
+                    android:textAlignment="viewEnd"
                     android:textColor="@color/text_heading"
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tvCurrencySign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/karla_bold"
                     android:text="@string/currencySign"
+                    android:textAlignment="viewEnd"
                     android:textColor="@color/text_heading"
                     android:textSize="18sp" />
 
@@ -115,19 +118,20 @@
                     android:fontFamily="@font/karla_bold"
                     android:maxWidth="100dp"
                     android:singleLine="true"
+                    android:textAlignment="viewEnd"
                     android:textColor="@color/text_heading"
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
-<!--    <View-->
-<!--        android:id="@+id/divider"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:background="@color/green_main"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
+    <!--    <View-->
+    <!--        android:id="@+id/divider"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="@color/green_main"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

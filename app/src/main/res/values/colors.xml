@@ -16,4 +16,15 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="add_transaction_app_bar">#FFFFFF</color>
+    <color name="red_expense">#FF0000</color>
+    <color name="green_income">#4CAF50</color>
+    <color name="blue_graph">#82C3FB</color>
+    <color name="grey_graph">#CBCBCB</color>
+    <color name="fill_graph">#CAF0F8</color>
+    <color name="card_background">#FFFFFFFF</color>
+
+    <color name="example_4_grey">#6A6A6A</color>
+    <color name="example_4_green">#008489</color>
+    <color name="example_4_continuous_selection">#0F000000</color>
+    <color name="example_4_grey_past">#BEBEBE</color>
 </resources>

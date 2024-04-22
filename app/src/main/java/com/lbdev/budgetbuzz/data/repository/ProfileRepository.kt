@@ -1,6 +1,7 @@
 package com.lbdev.budgetbuzz.data.repository
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -62,11 +63,24 @@ class ProfileRepository(private val userProfileDao: UserProfileDao) {
             val documentReference = fireStoreDB.collection("Users").document(uid)
             documentReference.get()
                 .addOnSuccessListener { document ->
-                    val profile = document.toObject(Profile::class.java)
-                    callback(profile, null)
+                    Log.e("lakshayTest", "getProfile: " + "get success", )
+                    if (document.exists()) {
+                        Log.e("lakshayTest", "getProfile: " + "get exist", )
+                        val profile = document.toObject(Profile::class.java)
+                        callback(profile, null)
+                    } else {
+                        Log.e("lakshayTest", "getProfile: " + "get no exist", )
+                        callback(null, null)
+                    }
                 }.addOnFailureListener { exception ->
+                    Log.e("lakshayTest", "getProfile: " + "get fail", )
                     callback(null, exception)
+                }.addOnCanceledListener {
+                    Log.e("lakshayTest", "getProfile: " + "get cancel", )
+                    callback(null, Exception("Profile fetch cancelled"))
                 }
-        } ?: callback(null, Exception("User not logged in"))
+        } ?:
+        Log.e("lakshayTest", "getProfile: " + "get no loggedin", )
+        callback(null, Exception("User not logged in"))
     }
 }

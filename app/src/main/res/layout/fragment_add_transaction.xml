@@ -39,7 +39,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="10dp"
@@ -52,50 +52,70 @@
 
                 <TextView
                     android:id="@+id/categoryTV"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/karla_bold"
+                    android:gravity="center_vertical"
                     android:text="@string/select_a_category"
                     android:textColor="@color/text_heading"
                     android:textSize="24sp" />
 
-                <TextView
-                    android:id="@+id/operatorSign"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@id/currencySignTV"
-                    android:fontFamily="@font/karla_bold"
-                    android:text="@string/minusSign"
-                    android:textColor="@color/text_heading"
-                    android:textSize="30sp"
-                    android:visibility="invisible" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/currencySignTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@id/amountET"
-                    android:fontFamily="@font/karla_bold"
-                    android:text="@string/currencySign"
-                    android:textColor="@color/text_heading"
-                    android:textSize="30sp" />
+                    <TextView
+                        android:id="@+id/operatorSign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoSizeTextType="uniform"
+                        android:textAlignment="viewEnd"
+                        android:fontFamily="@font/karla_bold"
+                        android:text="@string/minusSign"
+                        android:textColor="@color/text_heading"
+                        android:textSize="30sp"
+                        android:visibility="visible" />
 
-                <EditText
-                    android:id="@+id/amountET"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@null"
-                    android:fontFamily="@font/karla_bold"
-                    android:hint="@string/amount_hint_000"
-                    android:inputType="numberDecimal"
-                    android:maxWidth="100dp"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:textSize="30sp" />
+                    <TextView
+                        android:id="@+id/currencySignTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoSizeTextType="uniform"
+                        android:textAlignment="viewEnd"
+                        android:fontFamily="@font/karla_bold"
+                        android:text="@string/currencySign"
+                        android:textColor="@color/text_heading"
+                        android:textSize="30sp" />
 
-            </RelativeLayout>
+                    <EditText
+                        android:id="@+id/amountET"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoSizeTextType="uniform"
+                        android:background="@null"
+                        android:fontFamily="@font/karla_bold"
+                        android:hint="@string/amount_hint_000"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@null"
+                        android:textSize="30sp" />
+                </LinearLayout>
+
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View

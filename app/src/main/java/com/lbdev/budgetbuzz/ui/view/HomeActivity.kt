@@ -36,11 +36,6 @@ class HomeActivity : BaseActivity() {
             sharedViewModel.addIncomeCategory(list)
         }
 
-        this.supportFragmentManager.beginTransaction()
-            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_in_left)
-            .replace(R.id.fcvMain, ActivityFragment::class.java, null)
-            .commit()
-
         homeBinding.bottomNavigationView.background = null
         homeBinding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
@@ -48,6 +43,7 @@ class HomeActivity : BaseActivity() {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
             transaction.replace(android.R.id.content, AddTransactionFragment())
+            transaction.addToBackStack(null)
             transaction.commit()
         }
 
@@ -83,5 +79,7 @@ class HomeActivity : BaseActivity() {
             }
             true
         }
+
+        homeBinding.bottomNavigationView.selectedItemId = R.id.activity
     }
 }

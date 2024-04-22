@@ -7,12 +7,11 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
 import com.google.firebase.auth.PhoneAuthCredential
@@ -22,17 +21,23 @@ import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.lbdev.budgetbuzz.R
+import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.ActivityLoginSignupBinding
+import com.lbdev.budgetbuzz.ui.base.BaseActivity
+import com.lbdev.budgetbuzz.ui.viewmodel.ProfileViewModel
+import com.lbdev.budgetbuzz.util.ProfileViewModelFactory
 import java.util.concurrent.TimeUnit
 
-class LoginSignupActivity : AppCompatActivity() {
+class LoginSignupActivity : BaseActivity() {
     private lateinit var lsBinding: ActivityLoginSignupBinding
-    private lateinit var auth: FirebaseAuth
     private var storedVerificationId: String? = ""
     private var phoneNumber: String? = ""
     private lateinit var resendToken: ForceResendingToken
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
+    private val profileViewModel: ProfileViewModel by viewModels {
+        ProfileViewModelFactory(ProfileRepository(db.userProfileDao()))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         lsBinding = ActivityLoginSignupBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -151,12 +156,22 @@ class LoginSignupActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     lsBinding.progressBar.visibility = View.INVISIBLE
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, CreateProfileActivity::class.java))
-                    finish()
+                    profileViewModel.getSavedProfile()
+                    profileViewModel.isLoading.observe(this) { isLoading ->
+                        if (!isLoading) {
+                            profileViewModel.savedProfile.observe(this) { profile ->
+                                if (profile != null) {
+                                    startActivity(Intent(this, VerifyPinActivity::class.java))
+                                    finish()
+                                } else {
+                                    startActivity(Intent(this, CreateProfileActivity::class.java))
+                                    finish()
+                                }
+                            }
+                        }
+                    }
                 } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        // The verification code entered was invalid
                         Toast.makeText(this, "Invalid Otp...", Toast.LENGTH_SHORT).show()
                     }
                 }

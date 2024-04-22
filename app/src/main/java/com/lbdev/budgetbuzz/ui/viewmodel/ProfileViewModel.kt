@@ -20,6 +20,8 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     private val _imageUrl = MutableLiveData<String?>()
     val imageUrl: LiveData<String?> = _imageUrl
 
+    val isLoading = MutableLiveData<Boolean>()
+
     fun getUserProfile(uid: String): LiveData<Profile> = profileRepository.getUserProfile(uid)
 
     fun saveUserProfile(userProfile: Profile) {
@@ -52,12 +54,18 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     }
 
     fun getSavedProfile() {
+        isLoading.value = true
         profileRepository.getProfile { profile, exception ->
             if (profile != null) {
+                isLoading.value = false
                 _savedProfile.postValue(profile)
             } else {
+                isLoading.value = false
+                _savedProfile.postValue(null)
                 _error.postValue(exception?.localizedMessage ?: "An unknown error occurred")
             }
+            isLoading.value = false
         }
+        isLoading.value = false
     }
 }

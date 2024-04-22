@@ -5,10 +5,13 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -92,8 +95,19 @@ class CreateProfileActivity : BaseActivity() {
             }
         }
 
+        val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                cpBinding.profilePic.setImageURI(uri)
+                cpBinding.lookGoodTV.visibility = View.VISIBLE
+                Log.d("PhotoPicker", "Selected URI: $uri")
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
+
         cpBinding.changePicBtn.setOnClickListener {
-            selectPhotoFromGallery.launch("image/*")
+//            selectPhotoFromGallery.launch("image/*")
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
         cpBinding.saveImageBtn.setOnClickListener {
@@ -175,8 +189,15 @@ class CreateProfileActivity : BaseActivity() {
         if (it != null) {
             val photoUri = it
             try {
-                val bitmap =
-                    ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, photoUri))
+                val bitmap = if (Build.VERSION.SDK_INT >= 28) {
+                    val source = ImageDecoder.createSource(contentResolver, photoUri)
+                    ImageDecoder.decodeBitmap(source)
+                } else {
+                    @Suppress("DEPRECATION")
+                    MediaStore.Images.Media.getBitmap(contentResolver, photoUri)
+                }
+//                val bitmap =
+//                    ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, photoUri))
                 cpBinding.profilePic.setImageBitmap(bitmap)
                 cpBinding.lookGoodTV.visibility = View.VISIBLE
             } catch (e: Exception) {

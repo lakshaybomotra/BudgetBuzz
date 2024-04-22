@@ -33,6 +33,7 @@ class VerifyPinActivity : BaseActivity() {
                 if (profile != null) {
                     profileViewModel.saveUserProfile(profile)
                     if (profile.pin == pin) {
+                        finishAffinity()
                         startActivity(Intent(this, HomeActivity::class.java))
                         finish()
                     } else {

@@ -15,6 +15,7 @@ import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.lbdev.budgetbuzz.R
 import com.lbdev.budgetbuzz.data.model.Transaction
+import com.lbdev.budgetbuzz.util.setTextColorRes
 import java.util.Calendar
 
 class TransactionsAdaptor(
@@ -29,6 +30,7 @@ class TransactionsAdaptor(
         val dateTextView: TextView = itemView.findViewById(R.id.tvTransactionDate)
         val amountTextView: TextView = itemView.findViewById(R.id.tvTransactionAmount)
         val signTextView: TextView = itemView.findViewById(R.id.tvTransactionSign)
+        val currencyTextView: TextView = itemView.findViewById(R.id.tvCurrencySign)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -44,6 +46,17 @@ class TransactionsAdaptor(
         holder.descriptionTextView.text = item.note
         holder.amountTextView.text = item.amount
         holder.signTextView.text = if (item.type == "Expense") "-" else "+"
+        holder.signTextView.setTextColorRes(
+            if (item.type == "Expense") R.color.red_expense else R.color.green_income
+        )
+
+        holder.amountTextView.setTextColorRes(
+            if (item.type == "Expense") R.color.red_expense else R.color.green_income
+        )
+
+        holder.currencyTextView.setTextColorRes(
+            if (item.type == "Expense") R.color.red_expense else R.color.green_income
+        )
 
         holder.categoryImageView.load(item.category.icon) {
             decoderFactory { result, options, _ -> SvgDecoder(result.source, options) }

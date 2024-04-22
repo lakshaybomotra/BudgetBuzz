@@ -1,6 +1,5 @@
 package com.lbdev.budgetbuzz.ui.view
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,8 @@ import com.lbdev.budgetbuzz.databinding.FragmentActivityBinding
 import com.lbdev.budgetbuzz.ui.adaptor.TransactionsAdaptor
 import com.lbdev.budgetbuzz.ui.viewmodel.SharedViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.TransactionsViewModel
-import java.util.Calendar
+import ru.cleverpumpkin.calendar.CalendarDate
+import java.time.LocalDate
 import java.util.Date
 
 class ActivityFragment : Fragment() {
@@ -66,46 +66,27 @@ class ActivityFragment : Fragment() {
                 showTransactions()
             }
         }
-    }
 
-    private fun showTransactions() {
-        if (transactions.isEmpty())
-        {
-            binding.transactionsCL.visibility = View.GONE
-            binding.noTransactionsLL.visibility = View.VISIBLE
-            return
-        } else {
-            binding.transactionsCL.visibility = View.VISIBLE
-            binding.noTransactionsLL.visibility = View.GONE
-            if (filteredTransactions.isEmpty()) {
-                binding.amountSpentTv.text = "0.0"
-                binding.amountEarnedTv.text = "0.0"
-                binding.transactionsLL.visibility = View.GONE
-                binding.noTransactionsInnerLL.visibility = View.VISIBLE
-                return
-            } else {
-                binding.progressBar.visibility = View.GONE
-                binding.amountSpentTv.text = totalExpense.toString()
-                binding.amountEarnedTv.text = totalIncome.toString()
-                adapter = TransactionsAdaptor(filteredTransactions)
-                binding.transactionsRV.layoutManager = LinearLayoutManager(context)
-                binding.transactionsRV.setHasFixedSize(true)
-                binding.transactionsRV.adapter = adapter
-                binding.transactionsCL.visibility = View.VISIBLE
-                binding.noTransactionsLL.visibility = View.GONE
-                binding.transactionsLL.visibility = View.VISIBLE
-                binding.noTransactionsInnerLL.visibility = View.GONE
+        binding.filterIV.setOnClickListener {
+            val oldestDate = transactions.minByOrNull { it.date }?.date
+            val newestDate = transactions.maxByOrNull { it.date }?.date
+            val minDate = oldestDate?.let { CalendarDate(it.toDate()) }
+            val maxDate = newestDate?.let { CalendarDate(it.toDate()) }
+
+            val calendarFragment = CalendarFragment(minDate, maxDate)
+            calendarFragment.onDateSelectedListener = object : CalendarFragment.OnDateSelectedListener {
+                override fun onDateSelected(startDate: LocalDate, endDate: LocalDate) {
+                    fromDate = Timestamp(Date(startDate.year - 1900, startDate.monthValue - 1, startDate.dayOfMonth))
+                    toDate = Timestamp(Date(endDate.year - 1900, endDate.monthValue - 1, endDate.dayOfMonth))
+                    transactionsViewModel.getUserTransaction()
+                }
             }
-        }
 
-        if ((totalIncome - totalExpense) < 0) {
-            binding.totalTransactionAmountTV.text =
-                (totalIncome - totalExpense).toString().replace("-", "")
-            binding.totalAmountSignTV.text = getString(R.string.minusSign)
-        } else {
-            binding.totalTransactionAmountTV.text =
-                (totalIncome - totalExpense).toString().replace("+", "")
-            binding.totalAmountSignTV.text = getString(R.string.plusSign)
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+            transaction.replace(android.R.id.content, calendarFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 
@@ -138,34 +119,47 @@ class ActivityFragment : Fragment() {
         return view
     }
 
-    private fun showDatePicker() {
-        val calendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, year, month, dayOfMonth ->
-//                 val selectedDateTimestamp = Timestamp(
-//                    java.util.Date(
-//                        year - 1900,
-//                        month,
-//                        dayOfMonth
-//                    ))
+    private fun showTransactions() {
+        if (transactions.isEmpty())
+        {
+            binding.progressBar.visibility = View.GONE
+            binding.transactionsCL.visibility = View.GONE
+            binding.noTransactionsLL.visibility = View.VISIBLE
+            return
+        } else {
+            binding.transactionsCL.visibility = View.VISIBLE
+            binding.noTransactionsLL.visibility = View.GONE
+            if (filteredTransactions.isEmpty()) {
+                binding.amountSpentTv.text = "0.0"
+                binding.amountEarnedTv.text = "0.0"
+                binding.transactionsLL.visibility = View.GONE
+                binding.noTransactionsInnerLL.visibility = View.VISIBLE
+                return
+            } else {
+                binding.progressBar.visibility = View.GONE
+                binding.amountSpentTv.text = totalExpense.toString()
+                binding.amountEarnedTv.text = totalIncome.toString()
+                adapter = TransactionsAdaptor(filteredTransactions)
+                binding.transactionsRV.layoutManager = LinearLayoutManager(context)
+                binding.transactionsRV.setHasFixedSize(true)
+                binding.transactionsRV.adapter = adapter
+                binding.transactionsCL.visibility = View.VISIBLE
+                binding.noTransactionsLL.visibility = View.GONE
+                binding.transactionsLL.visibility = View.VISIBLE
+                binding.noTransactionsInnerLL.visibility = View.GONE
+            }
+        }
 
-//                if (selectedDateTimestamp.toDate()>fromDateTimestamp.toDate() && selectedDateTimestamp.toDate()<toDateTimestamp.toDate()) {
-//                    Toast.makeText(
-//                        requireContext(), "In range", Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@DatePickerDialog
-//                }
-
-                fromDate = Timestamp(Date(year - 1900, month, dayOfMonth))
-//                val currentDate = "$dayOfMonth ${months[month]} $year"
-//                binding.dateTV.text = currentDate
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
-        datePickerDialog.show()
+        if ((totalIncome - totalExpense) < 0) {
+            binding.netTextView.text = "Deficit of:"
+            binding.totalTransactionAmountTV.text =
+                (totalIncome - totalExpense).toString().replace("-", "")
+            binding.totalAmountSignTV.text = getString(R.string.minusSign)
+        } else {
+            binding.netTextView.text = "Net Earning:"
+            binding.totalTransactionAmountTV.text =
+                (totalIncome - totalExpense).toString().replace("+", "")
+            binding.totalAmountSignTV.text = getString(R.string.plusSign)
+        }
     }
 }

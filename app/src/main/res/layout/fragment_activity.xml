@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_background"
     tools:context=".ui.view.ActivityFragment">
 
     <ProgressBar
@@ -91,7 +92,7 @@
                         android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
                         android:layout_margin="10dp"
-                        android:contentDescription="Filter icon"
+                        android:contentDescription="@string/filter_icon"
                         android:src="@drawable/calendar"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -285,8 +286,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="8dp"
+                app:strokeWidth="0dp"
+                app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent">
@@ -298,40 +301,46 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:id="@+id/textRL"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/netTextView"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerInParent="true"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="10dp"
+                            android:layout_weight="0.5"
+                            android:maxLines="1"
+                            android:autoSizeTextType="uniform"
                             android:fontFamily="@font/karla_bold"
-                            android:text="@string/recent_transactions"
                             android:textColor="@color/text_description"
                             android:textSize="18sp" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="20dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/totalAmountSignTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:autoSizeTextType="uniform"
                                 android:fontFamily="@font/karla_bold"
                                 android:text="@string/minusSign"
+                                android:textAlignment="viewEnd"
                                 android:textColor="@color/text_description"
                                 android:textSize="18sp" />
 
@@ -339,8 +348,10 @@
                                 android:id="@+id/totalCurrencySignTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:autoSizeTextType="uniform"
                                 android:fontFamily="@font/karla_bold"
                                 android:text="@string/currencySign"
+                                android:textAlignment="viewEnd"
                                 android:textColor="@color/text_description"
                                 android:textSize="18sp" />
 
@@ -348,14 +359,15 @@
                                 android:id="@+id/totalTransactionAmountTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:autoSizeTextType="uniform"
                                 android:fontFamily="@font/karla_bold"
-                                android:maxWidth="100dp"
-                                android:singleLine="true"
                                 android:text="@string/zero"
+                                android:textAlignment="viewEnd"
+                                android:maxLines="1"
                                 android:textColor="@color/text_description"
                                 android:textSize="18sp" />
                         </LinearLayout>
-                    </RelativeLayout>
+                    </LinearLayout>
 
                     <androidx.core.widget.NestedScrollView
                         android:id="@+id/nested_scroll_view"
@@ -363,8 +375,8 @@
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
                         android:scrollbars="none"
-                        android:visibility="visible"
                         android:scrollingCache="true"
+                        android:visibility="visible"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                         <LinearLayout
@@ -403,13 +415,13 @@
                     android:textColor="@color/text_heading"
                     android:textSize="18sp"
                     android:visibility="gone"
+                    app:drawableBottomCompat="@drawable/no_transactions"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5"
-                    app:drawableBottomCompat="@drawable/no_transactions" />
+                    app:layout_constraintVertical_bias="0.5" />
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
