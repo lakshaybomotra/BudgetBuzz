@@ -40,4 +40,14 @@
     <style name="Example4ButtonTheme" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="colorPrimary">@color/green_main</item>
     </style>
+
+    <style name="DatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/green_main</item>
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+    </style>
 </resources>

@@ -21,11 +21,6 @@
         <item name="colorSurface">@color/green_main</item>
     </style>
 
-    <style name="ThemeOverlay.BudgetBuzz.FullscreenContainer" parent="">
-        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
-        <item name="fullscreenTextColor">@color/light_blue_A200</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
@@ -36,5 +31,15 @@
 
     <style name="Example4ButtonTheme" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="colorPrimary">@color/green_main</item>
+    </style>
+
+    <style name="DatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/green_main</item>
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
     </style>
 </resources>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="12dp"
     tools:context=".ui.view.OverviewFragment">
 
     <ScrollView
@@ -33,30 +34,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/textRL"
+                    <TextView
+                        android:id="@+id/netTextView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/netTextView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_weight="0.5"
-                            android:autoSizeTextType="uniform"
-                            android:fontFamily="@font/karla_bold"
-                            android:maxLines="1"
-                            android:text="Spent So Far"
-                            android:textColor="@color/text_description"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.5"
+                        android:autoSizeTextType="uniform"
+                        android:fontFamily="@font/karla_bold"
+                        android:maxLines="1"
+                        android:text="@string/spent_so_far"
+                        android:textColor="@color/text_description"
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:id="@+id/overallTransactionsLL"
@@ -84,33 +77,30 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="10dp"
+                                android:gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_margin="10dp"
+                                    android:layout_marginVertical="10dp"
                                     android:autoSizeTextType="uniform"
                                     android:maxLines="1"
-                                    android:text="Wallet Balance"
+                                    android:text="@string/income"
                                     android:textColor="@color/text_description"
                                     android:textSize="12sp" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="10dp"
                                     android:layout_marginBottom="10dp"
-                                    android:gravity="center"
                                     android:orientation="horizontal">
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/karla_bold"
-                                        android:text="@string/minusSign"
+                                        android:text="@string/plusSign"
                                         android:textColor="@color/green_income"
                                         android:textSize="18sp" />
 
@@ -124,7 +114,7 @@
                                         android:textSize="18sp" />
 
                                     <TextView
-                                        android:id="@+id/amountSpentTv"
+                                        android:id="@+id/amountEarnedTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/karla_bold"
@@ -151,27 +141,25 @@
                             app:strokeWidth="0dp">
 
                             <LinearLayout
-                                android:layout_margin="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_margin="10dp"
+                                    android:layout_marginVertical="10dp"
                                     android:autoSizeTextType="uniform"
                                     android:maxLines="1"
-                                    android:text="This Month"
+                                    android:text="@string/expense"
                                     android:textColor="@color/text_description"
                                     android:textSize="12sp" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="10dp"
                                     android:layout_marginBottom="10dp"
                                     android:gravity="center"
                                     android:orientation="horizontal">
@@ -180,7 +168,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/karla_bold"
-                                        android:text="@string/plusSign"
+                                        android:text="@string/minusSign"
                                         android:textColor="@color/red_expense"
                                         android:textSize="18sp" />
 
@@ -194,7 +182,7 @@
                                         android:textSize="18sp" />
 
                                     <TextView
-                                        android:id="@+id/amountEarnedTv"
+                                        android:id="@+id/amountSpentTv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/karla_bold"
@@ -235,15 +223,32 @@
                 app:layout_constraintTop_toBottomOf="@id/lineChartCard"
                 app:strokeWidth="0dp">
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/expensePieChart"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="50dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.5"
+                        android:autoSizeTextType="uniform"
+                        android:fontFamily="@font/karla_bold"
+                        android:maxLines="1"
+                        android:text="@string/expense_this_month"
+                        android:textColor="@color/text_description"
+                        android:textSize="18sp" />
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/expensePieChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -259,15 +264,32 @@
                 app:layout_constraintTop_toBottomOf="@id/expenseCard"
                 app:strokeWidth="0dp">
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/incomePieChart"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="50dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.5"
+                        android:autoSizeTextType="uniform"
+                        android:fontFamily="@font/karla_bold"
+                        android:maxLines="1"
+                        android:text="@string/incomes_this_month"
+                        android:textColor="@color/text_description"
+                        android:textSize="18sp" />
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/incomePieChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

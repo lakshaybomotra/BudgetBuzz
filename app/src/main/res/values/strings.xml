@@ -34,7 +34,7 @@
     <string name="category_icon">Category Icon</string>
     <string name="cancel">Cancel</string>
     <string name="minusSign">-</string>
-    <string name="currencySign">$</string>
+    <string name="currencySign">₹</string>
     <string name="amount_hint_000">000</string>
     <string name="expense">Expense</string>
     <string name="income">Income</string>
@@ -60,4 +60,7 @@
     <string name="clear">Clear</string>
     <string name="filter_icon">Filter icon</string>
     <string name="save">Save</string>
+    <string name="deficit_of">Deficit of:</string>
+    <string name="net_earning">Net Earning:</string>
+    <string name="spent_so_far">Spent So Far</string>
 </resources>

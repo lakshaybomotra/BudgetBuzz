@@ -47,26 +47,6 @@ class ActivityFragment : Fragment() {
             }
         }
 
-        transactionsViewModel.transactions.observe(viewLifecycleOwner) { transactions->
-            if (transactions != null) {
-                this.transactions = transactions
-                filteredTransactions = transactions.filter { it.date in fromDate..toDate }.sortedByDescending { it.date }
-
-                var totalExpenses = 0.0
-                var totalIncomes = 0.0
-                for (transaction in filteredTransactions) {
-                    if (transaction.type == "Expense") {
-                        totalExpenses += transaction.amount.toBigDecimal().toDouble()
-                    } else {
-                        totalIncomes += transaction.amount.toBigDecimal().toDouble()
-                    }
-                }
-                totalExpense = totalExpenses
-                totalIncome = totalIncomes
-                showTransactions()
-            }
-        }
-
         binding.filterIV.setOnClickListener {
             val oldestDate = transactions.minByOrNull { it.date }?.date
             val newestDate = transactions.maxByOrNull { it.date }?.date
@@ -101,6 +81,7 @@ class ActivityFragment : Fragment() {
 
         transactionsViewModel.transactions.observe(viewLifecycleOwner) { transactions->
             if (transactions != null) {
+                this.transactions = transactions
                 filteredTransactions = transactions.filter { it.date in fromDate..toDate }.sortedByDescending { it.date }
                 var totalExpenses = 0.0
                 var totalIncomes = 0.0
@@ -151,12 +132,12 @@ class ActivityFragment : Fragment() {
         }
 
         if ((totalIncome - totalExpense) < 0) {
-            binding.netTextView.text = "Deficit of:"
+            binding.netTextView.text = getString(R.string.deficit_of)
             binding.totalTransactionAmountTV.text =
                 (totalIncome - totalExpense).toString().replace("-", "")
             binding.totalAmountSignTV.text = getString(R.string.minusSign)
         } else {
-            binding.netTextView.text = "Net Earning:"
+            binding.netTextView.text = getString(R.string.net_earning)
             binding.totalTransactionAmountTV.text =
                 (totalIncome - totalExpense).toString().replace("+", "")
             binding.totalAmountSignTV.text = getString(R.string.plusSign)
