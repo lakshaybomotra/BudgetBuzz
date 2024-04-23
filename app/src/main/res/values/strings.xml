@@ -57,4 +57,7 @@
     <string name="zero">0</string>
     <string name="recent_transactions">Recent Transactions</string>
     <string name="you_don_t_have_any_transactions_n_in_selected_filter">You don’t have any transactions\n in selected filter</string>
+    <string name="clear">Clear</string>
+    <string name="filter_icon">Filter icon</string>
+    <string name="save">Save</string>
 </resources>
