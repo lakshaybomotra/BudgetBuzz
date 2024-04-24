@@ -1,7 +1,10 @@
 package com.lbdev.budgetbuzz.ui.view
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.biometric.BiometricManager
@@ -20,15 +23,22 @@ class VerifyPinActivity : BaseActivity() {
         ProfileViewModelFactory(ProfileRepository(db.userProfileDao()))
     }
     private lateinit var vpBinding: ActivityVerifyPinBinding
+    private var biometricPref: SharedPreferences? = null
+    private var isBiometricEnabled = false
     override fun onCreate(savedInstanceState: Bundle?) {
         vpBinding = ActivityVerifyPinBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(vpBinding.root)
 
-        profileViewModel.getSavedProfile()
+        profileViewModel.getFirebaseProfile()
 
         val executor = ContextCompat.getMainExecutor(this)
 
+        biometricPref = getSharedPreferences("biometricPref", Context.MODE_PRIVATE)
+        isBiometricEnabled = biometricPref!!.getBoolean("biometricEnabled", false)
+        if (!isBiometricEnabled) {
+            vpBinding.fingerprintIv.visibility = View.GONE
+        }
         vpBinding.fingerprintIv.setOnClickListener {
             showBiometricPrompt(executor)
         }

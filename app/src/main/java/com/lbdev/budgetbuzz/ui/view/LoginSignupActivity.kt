@@ -156,7 +156,7 @@ class LoginSignupActivity : BaseActivity() {
                 if (task.isSuccessful) {
                     lsBinding.progressBar.visibility = View.INVISIBLE
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                    profileViewModel.getSavedProfile()
+                    profileViewModel.getFirebaseProfile()
                     profileViewModel.isLoading.observe(this) { isLoading ->
                         if (!isLoading) {
                             profileViewModel.savedProfile.observe(this) { profile ->

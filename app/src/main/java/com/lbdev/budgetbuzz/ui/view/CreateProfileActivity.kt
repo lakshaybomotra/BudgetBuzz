@@ -155,7 +155,7 @@ class CreateProfileActivity : BaseActivity() {
                     auth.currentUser?.phoneNumber!!,
                     imageUrl
                 )
-                profileViewModel.saveProfileToDatabase(profile)
+                profileViewModel.saveProfileToFirebase(profile)
             }
         }
 

@@ -63,24 +63,18 @@ class ProfileRepository(private val userProfileDao: UserProfileDao) {
             val documentReference = fireStoreDB.collection("Users").document(uid)
             documentReference.get()
                 .addOnSuccessListener { document ->
-                    Log.e("lakshayTest", "getProfile: " + "get success", )
                     if (document.exists()) {
-                        Log.e("lakshayTest", "getProfile: " + "get exist", )
                         val profile = document.toObject(Profile::class.java)
                         callback(profile, null)
                     } else {
-                        Log.e("lakshayTest", "getProfile: " + "get no exist", )
                         callback(null, null)
                     }
                 }.addOnFailureListener { exception ->
-                    Log.e("lakshayTest", "getProfile: " + "get fail", )
                     callback(null, exception)
                 }.addOnCanceledListener {
-                    Log.e("lakshayTest", "getProfile: " + "get cancel", )
                     callback(null, Exception("Profile fetch cancelled"))
                 }
         } ?:
-        Log.e("lakshayTest", "getProfile: " + "get no loggedin", )
         callback(null, Exception("User not logged in"))
     }
 }

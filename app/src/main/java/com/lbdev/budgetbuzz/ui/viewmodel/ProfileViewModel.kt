@@ -22,7 +22,9 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
 
     val isLoading = MutableLiveData<Boolean>()
 
-    fun getUserProfile(uid: String): LiveData<Profile> = profileRepository.getUserProfile(uid)
+    fun getUserProfile(uid: String): LiveData<Profile> {
+        return profileRepository.getUserProfile(uid)
+    }
 
     fun saveUserProfile(userProfile: Profile) {
         viewModelScope.launch {
@@ -43,7 +45,7 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         }
     }
 
-    fun saveProfileToDatabase(profile: Profile) {
+    fun saveProfileToFirebase(profile: Profile) {
         profileRepository.saveProfile(profile) { success, exception ->
             if (success) {
                 _savedProfile.postValue(profile)
@@ -53,7 +55,7 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         }
     }
 
-    fun getSavedProfile() {
+    fun getFirebaseProfile() {
         isLoading.value = true
         profileRepository.getProfile { profile, exception ->
             if (profile != null) {
