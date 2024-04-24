@@ -53,7 +53,7 @@ class HomeActivity : BaseActivity() {
                     this.supportFragmentManager.beginTransaction()
                         .setCustomAnimations(
                             android.R.anim.slide_in_left,
-                            android.R.anim.slide_in_left
+                            android.R.anim.slide_out_right
                         )
                         .replace(R.id.fcvMain, ActivityFragment::class.java, null)
                         .commit()
@@ -61,6 +61,10 @@ class HomeActivity : BaseActivity() {
 
                 R.id.overview -> {
                     this.supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(
+                            android.R.anim.slide_in_left,
+                            android.R.anim.slide_out_right
+                        )
                         .replace(R.id.fcvMain, OverviewFragment::class.java, null)
                         .commit()
                 }

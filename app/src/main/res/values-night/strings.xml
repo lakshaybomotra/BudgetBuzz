@@ -48,7 +48,7 @@
     <string name="start_adding_one_by_pressing_nthe_plus_icon_from_the_bottom_menu">Start adding one by pressing\nthe plus icon from the bottom menu</string>
     <string name="plusSign">+</string>
     <string name="earned">Earned</string>
-    <string name="incomes_this_month">Incomes this month</string>
+    <string name="incomes_this_month">Income this month</string>
     <string name="expense_this_month">Expense this month</string>
     <string name="spent">Spent</string>
     <string name="no_transaction_image">No Transaction Image</string>

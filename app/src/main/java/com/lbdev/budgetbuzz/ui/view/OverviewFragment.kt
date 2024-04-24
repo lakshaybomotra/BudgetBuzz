@@ -48,7 +48,7 @@ class OverviewFragment : Fragment() {
     lateinit var currencySign: String
     private var selectedMonth = Calendar.getInstance().get(Calendar.MONTH)
     private var selectedYear = Calendar.getInstance().get(Calendar.YEAR)
-    val calendarMonths = arrayOf(
+    private val calendarMonths = arrayOf(
         "Jan",
         "Feb",
         "Mar",
@@ -60,8 +60,9 @@ class OverviewFragment : Fragment() {
         "Sep",
         "Oct",
         "Nov",
-        "Decr"
+        "Dec"
     )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -76,7 +77,7 @@ class OverviewFragment : Fragment() {
             }
         }
 
-        binding.netTextView.setOnClickListener {
+        binding.calendarTab.setOnClickListener {
             showMonthYearPicker()
         }
     }
@@ -90,7 +91,7 @@ class OverviewFragment : Fragment() {
         currencySign = resources.getString(R.string.currencySign)
         transactionsViewModel = TransactionsViewModel(transactionsRepository)
         transactionsViewModel.getUserTransaction()
-
+        binding.selectedMonthYearTV.text = "${calendarMonths[selectedMonth]} $selectedYear"
         transactionsViewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             val monthName = calendarMonths[selectedMonth]
             val monthTransactions =
@@ -127,7 +128,7 @@ class OverviewFragment : Fragment() {
     private fun transactionsLineChart(transactions: List<Transaction>) {
         if (transactions.isEmpty()) {
             lineChart.clear()
-            lineChart.setNoDataText("No data available")
+            lineChart.setNoDataText("No data available for selected month")
             lineChart.invalidate()
             return
         }
@@ -190,7 +191,7 @@ class OverviewFragment : Fragment() {
     private fun expenseChart(transactions: List<Transaction>) {
         if (transactions.isEmpty()) {
             expensePieChart.clear()
-            expensePieChart.setNoDataText("No data available")
+            expensePieChart.setNoDataText("No data available for selected month")
             expensePieChart.invalidate()
             return
         }
@@ -263,7 +264,7 @@ class OverviewFragment : Fragment() {
         expenseDataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
         expenseDataSet.valueTextColor = resources.getColor(R.color.text_heading, null)
         expenseDataSet.valueTextSize = 12f
-        expenseDataSet.sliceSpace = 3f
+        expenseDataSet.sliceSpace = 2f
         expenseDataSet.selectionShift = 5f
         expenseDataSet.valueFormatter = PercentFormatter()
         val colors = ArrayList<Int>()
@@ -280,7 +281,7 @@ class OverviewFragment : Fragment() {
     private fun incomeChart(transactions: List<Transaction>) {
         if (transactions.isEmpty()) {
             incomePieChart.clear()
-            incomePieChart.setNoDataText("No data available")
+            incomePieChart.setNoDataText("No data available for selected month")
             incomePieChart.invalidate()
             return
         }
@@ -353,7 +354,7 @@ class OverviewFragment : Fragment() {
         incomeDataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
         incomeDataSet.valueTextColor = resources.getColor(R.color.text_heading, null)
         incomeDataSet.valueTextSize = 12f
-        incomeDataSet.sliceSpace = 3f
+        incomeDataSet.sliceSpace = 2f
         incomeDataSet.selectionShift = 5f
         incomeDataSet.valueFormatter = PercentFormatter()
         val colors = ArrayList<Int>()
@@ -375,6 +376,7 @@ class OverviewFragment : Fragment() {
             { _, year, month, _ ->
                 selectedMonth = month
                 selectedYear = year
+                binding.selectedMonthYearTV.text = "${calendarMonths[month]} $year"
                 transactionsViewModel.getUserTransaction()
             },
             calendar.get(Calendar.YEAR),

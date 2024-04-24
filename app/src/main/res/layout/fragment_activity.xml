@@ -289,7 +289,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="20dp"
                 app:cardBackgroundColor="@color/card_background"
-                app:cardCornerRadius="8dp"
+                app:cardCornerRadius="5dp"
                 app:strokeWidth="0dp"
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"

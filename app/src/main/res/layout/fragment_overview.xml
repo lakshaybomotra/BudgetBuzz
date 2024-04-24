@@ -4,12 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="12dp"
     tools:context=".ui.view.OverviewFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/calendarTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/selectedMonthYearTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:fontFamily="@font/karla_bold"
+                android:textSize="22sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@color/green_main" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/filterIV"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/filter_icon"
+                android:src="@drawable/calendar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/calendarTab">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -86,7 +142,7 @@
                                     android:layout_marginVertical="10dp"
                                     android:autoSizeTextType="uniform"
                                     android:maxLines="1"
-                                    android:text="@string/income"
+                                    android:text="@string/incomes_this_month"
                                     android:textColor="@color/text_description"
                                     android:textSize="12sp" />
 
@@ -153,7 +209,7 @@
                                     android:layout_marginVertical="10dp"
                                     android:autoSizeTextType="uniform"
                                     android:maxLines="1"
-                                    android:text="@string/expense"
+                                    android:text="@string/expense_this_month"
                                     android:textColor="@color/text_description"
                                     android:textSize="12sp" />
 
@@ -288,7 +344,8 @@
                     <com.github.mikephil.charting.charts.PieChart
                         android:id="@+id/incomePieChart"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp" />
+                        android:layout_height="200dp"
+                        android:layout_marginBottom="50dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
