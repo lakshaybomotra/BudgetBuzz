@@ -15,9 +15,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
@@ -33,7 +30,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.Executor
 
 class CreateProfileActivity : BaseActivity() {
     lateinit var cpBinding: ActivityCreateProfileBinding
@@ -91,15 +87,16 @@ class CreateProfileActivity : BaseActivity() {
             }
         }
 
-        val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri != null) {
-                cpBinding.profilePic.setImageURI(uri)
-                cpBinding.lookGoodTV.visibility = View.VISIBLE
-                Log.d("PhotoPicker", "Selected URI: $uri")
-            } else {
-                Log.d("PhotoPicker", "No media selected")
+        val pickMedia =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                if (uri != null) {
+                    cpBinding.profilePic.setImageURI(uri)
+                    cpBinding.lookGoodTV.visibility = View.VISIBLE
+                    Log.d("PhotoPicker", "Selected URI: $uri")
+                } else {
+                    Log.d("PhotoPicker", "No media selected")
+                }
             }
-        }
 
         cpBinding.changePicBtn.setOnClickListener {
 //            selectPhotoFromGallery.launch("image/*")
