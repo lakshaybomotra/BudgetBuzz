@@ -61,4 +61,16 @@
     <string name="deficit_of">Deficit of:</string>
     <string name="net_earning">Net Earning:</string>
     <string name="spent_so_far">Spent So Far</string>
+    <string name="edit">Edit</string>
+    <string name="general">General</string>
+    <string name="fingerprint">Fingerprint</string>
+    <string name="change_passcode">Change Passcode</string>
+    <string name="notifications">Notifications</string>
+    <string name="categories">Categories</string>
+    <string name="other">Other</string>
+    <string name="rate_the_app">Rate the App</string>
+    <string name="support">Support</string>
+    <string name="share">Share</string>
+    <string name="terms_and_policy">Terms and Policy</string>
+    <string name="logout">Logout</string>
 </resources>

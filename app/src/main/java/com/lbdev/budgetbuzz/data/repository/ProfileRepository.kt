@@ -1,7 +1,6 @@
 package com.lbdev.budgetbuzz.data.repository
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -74,7 +73,6 @@ class ProfileRepository(private val userProfileDao: UserProfileDao) {
                 }.addOnCanceledListener {
                     callback(null, Exception("Profile fetch cancelled"))
                 }
-        } ?:
-        callback(null, Exception("User not logged in"))
+        } ?: callback(null, Exception("User not logged in"))
     }
 }

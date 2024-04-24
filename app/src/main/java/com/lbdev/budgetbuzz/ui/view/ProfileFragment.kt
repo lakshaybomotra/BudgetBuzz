@@ -3,12 +3,10 @@ package com.lbdev.budgetbuzz.ui.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -132,19 +130,20 @@ class ProfileFragment : Fragment() {
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_SUBJECT, "Check out this app!")
-                putExtra(Intent.EXTRA_TEXT, "https://landing.flycricket.io/bazinga/9de78df1-c2a3-4b60-a033-cd6cab92cc6b/")
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "https://landing.flycricket.io/bazinga/9de78df1-c2a3-4b60-a033-cd6cab92cc6b/"
+                )
             }
 
             startActivity(Intent.createChooser(shareIntent, "Share app using:"))
         }
 
         binding.termsButton.setOnClickListener {
-            binding.webviewLayout.visibility = View.VISIBLE
-            val privacyPolicyUrl = "https://doc-hosting.flycricket.io/bazinga-privacy-policy/977c683e-5457-4457-8539-3c311e501e34/privacy"
+            binding.webview.visibility = View.VISIBLE
+            val privacyPolicyUrl =
+                "https://doc-hosting.flycricket.io/bazinga-privacy-policy/977c683e-5457-4457-8539-3c311e501e34/privacy"
             binding.webview.loadUrl(privacyPolicyUrl)
-            binding.closeButton.setOnClickListener {
-                binding.webviewLayout.visibility = View.GONE
-            }
         }
 
         binding.logoutButton.setOnClickListener {

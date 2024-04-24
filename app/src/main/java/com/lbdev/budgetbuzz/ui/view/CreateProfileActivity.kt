@@ -54,10 +54,6 @@ class CreateProfileActivity : BaseActivity() {
         auth = Firebase.auth
         cpBinding.passcode.requestFocus()
 
-        val executor = ContextCompat.getMainExecutor(this)
-
-//        showBiometricPrompt(executor)
-
         cpBinding.continuePinBtn.setOnClickListener {
             if (cpBinding.passcode.text.toString().length == 4) {
                 cpBinding.getPinView.visibility = View.INVISIBLE
@@ -176,14 +172,6 @@ class CreateProfileActivity : BaseActivity() {
         }
     }
 
-    private fun checkBiometricSupport(): Boolean {
-        val biometricManager = BiometricManager.from(this)
-        return when (biometricManager.canAuthenticate()) {
-            BiometricManager.BIOMETRIC_SUCCESS -> true
-            else -> false
-        }
-    }
-
     @RequiresApi(Build.VERSION_CODES.P)
     val selectPhotoFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
         if (it != null) {
@@ -206,48 +194,6 @@ class CreateProfileActivity : BaseActivity() {
         } else {
             Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun showBiometricPrompt(executor: Executor) {
-        if (checkBiometricSupport()) {
-            authUser(executor)
-        }
-    }
-
-    private fun authUser(executor: Executor) {
-        val promptInfo = BiometricPrompt.PromptInfo.Builder().setTitle("Authenticate")
-            .setSubtitle("Use your fingerprint to authenticate").setDescription("Touch the sensor")
-            .setDeviceCredentialAllowed(true).build()
-
-        val biometricPrompt =
-            BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult
-                ) {
-                    super.onAuthenticationSucceeded(result)
-                    Toast.makeText(
-                        applicationContext, "Authentication succeeded!", Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                override fun onAuthenticationError(
-                    errorCode: Int, errString: CharSequence
-                ) {
-                    super.onAuthenticationError(errorCode, errString)
-                    Toast.makeText(
-                        applicationContext, "Authentication error: $errString", Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
-                    Toast.makeText(
-                        applicationContext, "Authentication failed", Toast.LENGTH_SHORT
-                    ).show()
-                }
-            })
-
-        biometricPrompt.authenticate(promptInfo)
     }
 
     override fun onBackPressed() {

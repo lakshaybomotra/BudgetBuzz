@@ -3,7 +3,6 @@ package com.lbdev.budgetbuzz.ui.base
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
