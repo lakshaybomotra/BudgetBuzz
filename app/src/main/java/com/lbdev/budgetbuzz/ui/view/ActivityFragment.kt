@@ -32,6 +32,20 @@ class ActivityFragment : Fragment() {
     private var totalIncome = 0.0
     var fromDate = Timestamp(Date(2022 - 1900, 4, 1))
     var toDate = Timestamp.now()
+    private val calendarMonths = arrayOf(
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,6 +72,7 @@ class ActivityFragment : Fragment() {
                 override fun onDateSelected(startDate: LocalDate, endDate: LocalDate) {
                     fromDate = Timestamp(Date(startDate.year - 1900, startDate.monthValue - 1, startDate.dayOfMonth))
                     toDate = Timestamp(Date(endDate.year - 1900, endDate.monthValue - 1, endDate.dayOfMonth))
+                    binding.selectedFilterTv.text = "${startDate.dayOfMonth} ${calendarMonths[startDate.monthValue - 1]} ${startDate.year} - ${endDate.dayOfMonth} ${calendarMonths[endDate.monthValue - 1]} ${endDate.year}"
                     transactionsViewModel.getUserTransaction()
                 }
             }
@@ -94,6 +109,7 @@ class ActivityFragment : Fragment() {
                 }
                 totalExpense = totalExpenses
                 totalIncome = totalIncomes
+//                binding.selectedFilterTv.text = "${fromDate.toDate().date} ${calendarMonths[fromDate.toDate().month]} ${fromDate.toDate().year + 1900} - ${toDate.toDate().date} ${calendarMonths[toDate.toDate().month]} ${toDate.toDate().year + 1900}"
                 showTransactions()
             }
         }
