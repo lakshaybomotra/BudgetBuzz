@@ -77,7 +77,7 @@ class OverviewFragment : Fragment() {
             }
         }
 
-        binding.calendarTab.setOnClickListener {
+        binding.filterIV.setOnClickListener {
             showMonthYearPicker()
         }
     }

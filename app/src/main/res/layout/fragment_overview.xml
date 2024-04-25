@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_background"
     tools:context=".ui.view.OverviewFragment">
 
     <com.google.android.material.card.MaterialCardView
@@ -365,7 +366,7 @@
                         android:id="@+id/incomePieChart"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_marginBottom="50dp" />
+                        android:layout_marginBottom="80dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
