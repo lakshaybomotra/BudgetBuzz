@@ -50,7 +50,8 @@
                             android:text="@string/edit"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:visibility="invisible" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/profilePicCard"

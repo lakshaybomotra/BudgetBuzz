@@ -73,4 +73,5 @@
     <string name="share">Share</string>
     <string name="terms_and_policy">Terms and Policy</string>
     <string name="logout">Logout</string>
+    <string name="all">ALL</string>
 </resources>
