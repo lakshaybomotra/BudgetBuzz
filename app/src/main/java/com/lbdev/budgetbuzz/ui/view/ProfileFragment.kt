@@ -127,7 +127,8 @@ class ProfileFragment : Fragment() {
         } else {
             notificationSwitch.trackDecorationTintList =
                 resources.getColorStateList(R.color.red_expense, null)
-            notificationSwitch.trackTintList = resources.getColorStateList(R.color.red_expense, null)
+            notificationSwitch.trackTintList =
+                resources.getColorStateList(R.color.red_expense, null)
         }
         notificationSwitch.isChecked = isNotificationEnabled
 
