@@ -75,4 +75,15 @@ class ProfileRepository(private val userProfileDao: UserProfileDao) {
                 }
         } ?: callback(null, Exception("User not logged in"))
     }
+
+    fun updatePin(userId: String, newPin: String, callback: (Boolean, Exception?) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val userDocument = db.collection("Users").document(userId)
+        userDocument.update("pin", newPin)
+            .addOnSuccessListener {
+                callback(true, null)
+            }.addOnFailureListener { exception ->
+                callback(false, exception)
+            }
+    }
 }

@@ -37,6 +37,8 @@ class ProfileFragment : Fragment() {
     }
     private var biometricPref: SharedPreferences? = null
     private var isBiometricEnabled = false
+    private var notificationPref: SharedPreferences? = null
+    private var isNotificationEnabled = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
@@ -81,7 +83,7 @@ class ProfileFragment : Fragment() {
         }
         fingerPrintSwitch.isChecked = isBiometricEnabled
 
-        fingerPrintSwitch.setOnCheckedChangeListener { compoundButton, b ->
+        fingerPrintSwitch.setOnCheckedChangeListener { _, b ->
             isBiometricEnabled = b
             val editor = biometricPref!!.edit()
             editor.putBoolean("biometricEnabled", isBiometricEnabled)
@@ -108,6 +110,44 @@ class ProfileFragment : Fragment() {
 //                Log.d("PhotoPicker", "No media selected")
 //            }
 //        }
+        binding.changePasscodeButton.setOnClickListener {
+            startActivity(Intent(requireContext(), ChangePinActivity::class.java))
+        }
+
+        val notificationSwitch = binding.notificationSwitch
+        notificationPref =
+            requireActivity().getSharedPreferences("notificationPref", Context.MODE_PRIVATE)
+        isNotificationEnabled = notificationPref!!.getBoolean("notificationEnabled", false)
+
+        if (isNotificationEnabled) {
+            notificationSwitch.trackDecorationTintList =
+                resources.getColorStateList(R.color.green_income, null)
+            notificationSwitch.trackTintList =
+                resources.getColorStateList(R.color.green_income, null)
+        } else {
+            notificationSwitch.trackDecorationTintList =
+                resources.getColorStateList(R.color.red_expense, null)
+            notificationSwitch.trackTintList = resources.getColorStateList(R.color.red_expense, null)
+        }
+        notificationSwitch.isChecked = isNotificationEnabled
+
+        notificationSwitch.setOnCheckedChangeListener { _, b ->
+            isNotificationEnabled = b
+            val editor = notificationPref!!.edit()
+            editor.putBoolean("notificationEnabled", isNotificationEnabled)
+            editor.apply()
+            if (b) {
+                notificationSwitch.trackDecorationTintList =
+                    resources.getColorStateList(R.color.green_income, null)
+                notificationSwitch.trackTintList =
+                    resources.getColorStateList(R.color.green_income, null)
+            } else {
+                notificationSwitch.trackDecorationTintList =
+                    resources.getColorStateList(R.color.red_expense, null)
+                notificationSwitch.trackTintList =
+                    resources.getColorStateList(R.color.red_expense, null)
+            }
+        }
 
         binding.supportButton.setOnClickListener {
             val mIntent = Intent(Intent.ACTION_SEND)

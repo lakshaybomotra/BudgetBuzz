@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
 import androidx.transition.Slide
@@ -21,11 +20,8 @@ import androidx.transition.TransitionManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.lbdev.budgetbuzz.data.model.Profile
-import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.ActivityCreateProfileBinding
 import com.lbdev.budgetbuzz.ui.base.BaseActivity
-import com.lbdev.budgetbuzz.ui.viewmodel.ProfileViewModel
-import com.lbdev.budgetbuzz.util.ProfileViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,9 +29,6 @@ import kotlinx.coroutines.withContext
 
 class CreateProfileActivity : BaseActivity() {
     lateinit var cpBinding: ActivityCreateProfileBinding
-    private val profileViewModel: ProfileViewModel by viewModels {
-        ProfileViewModelFactory(ProfileRepository(db.userProfileDao()))
-    }
 
     private lateinit var profilePic: Bitmap
     private var pin: String = ""

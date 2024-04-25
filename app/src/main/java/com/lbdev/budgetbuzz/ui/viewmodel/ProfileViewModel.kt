@@ -20,6 +20,9 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     private val _imageUrl = MutableLiveData<String?>()
     val imageUrl: LiveData<String?> = _imageUrl
 
+    private val _pinUpdated = MutableLiveData<String?>()
+    val pinUpdated: LiveData<String?> = _pinUpdated
+
     val isLoading = MutableLiveData<Boolean>()
 
     fun getUserProfile(uid: String): LiveData<Profile> {
@@ -69,5 +72,15 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
             isLoading.value = false
         }
         isLoading.value = false
+    }
+
+    fun updatePin(userId: String, newPin: String) {
+        profileRepository.updatePin(userId, newPin) { success, exception ->
+            if (success) {
+                _pinUpdated.postValue("Pin updated successfully")
+            } else {
+                _error.postValue(exception?.localizedMessage ?: "An unknown error occurred")
+            }
+        }
     }
 }

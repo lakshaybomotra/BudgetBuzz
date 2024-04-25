@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.google.firebase.FirebaseException
@@ -21,11 +20,8 @@ import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.lbdev.budgetbuzz.R
-import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.ActivityLoginSignupBinding
 import com.lbdev.budgetbuzz.ui.base.BaseActivity
-import com.lbdev.budgetbuzz.ui.viewmodel.ProfileViewModel
-import com.lbdev.budgetbuzz.util.ProfileViewModelFactory
 import java.util.concurrent.TimeUnit
 
 class LoginSignupActivity : BaseActivity() {
@@ -35,9 +31,6 @@ class LoginSignupActivity : BaseActivity() {
     private lateinit var resendToken: ForceResendingToken
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
-    private val profileViewModel: ProfileViewModel by viewModels {
-        ProfileViewModelFactory(ProfileRepository(db.userProfileDao()))
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         lsBinding = ActivityLoginSignupBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)

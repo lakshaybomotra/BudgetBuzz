@@ -16,7 +16,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected lateinit var db: AppDatabase
     protected lateinit var auth: FirebaseAuth
-    private val profileViewModel: ProfileViewModel by viewModels {
+    protected val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(ProfileRepository(db.userProfileDao()))
     }
 

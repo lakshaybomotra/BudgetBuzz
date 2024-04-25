@@ -6,22 +6,14 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.ActivityVerifyPinBinding
 import com.lbdev.budgetbuzz.ui.base.BaseActivity
-import com.lbdev.budgetbuzz.ui.viewmodel.ProfileViewModel
-import com.lbdev.budgetbuzz.util.ProfileViewModelFactory
 import java.util.concurrent.Executor
 
 class VerifyPinActivity : BaseActivity() {
-
-    private val profileViewModel: ProfileViewModel by viewModels {
-        ProfileViewModelFactory(ProfileRepository(db.userProfileDao()))
-    }
     private lateinit var vpBinding: ActivityVerifyPinBinding
     private var biometricPref: SharedPreferences? = null
     private var isBiometricEnabled = false
