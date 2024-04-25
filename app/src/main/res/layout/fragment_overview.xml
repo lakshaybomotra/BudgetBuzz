@@ -29,11 +29,7 @@
                 android:id="@+id/topBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginHorizontal="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -55,9 +51,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:contentDescription="@string/filter_icon"
-                    android:src="@drawable/calendar"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:src="@drawable/calendar" />
             </RelativeLayout>
 
             <LinearLayout
