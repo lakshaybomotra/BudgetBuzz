@@ -1,7 +1,9 @@
 package com.lbdev.budgetbuzz.ui.view
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import com.lbdev.budgetbuzz.R
 import com.lbdev.budgetbuzz.data.repository.CategoriesRepository
 import com.lbdev.budgetbuzz.data.repository.TransactionsRepository
@@ -39,6 +41,9 @@ class HomeActivity : BaseActivity() {
         homeBinding.bottomNavigationView.background = null
         homeBinding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
+        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val lastSelectedItemId = sharedPref.getInt("LastSelectedItemId", R.id.activity)
+
         homeBinding.addFab.setOnClickListener {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -48,42 +53,38 @@ class HomeActivity : BaseActivity() {
         }
 
         homeBinding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.activity -> {
-                    this.supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(
-                            android.R.anim.slide_in_left,
-                            android.R.anim.slide_out_right
-                        )
-                        .replace(R.id.fcvMain, ActivityFragment::class.java, null)
-                        .commit()
-                }
-
-                R.id.overview -> {
-                    this.supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(
-                            android.R.anim.slide_in_left,
-                            android.R.anim.slide_out_right
-                        )
-                        .replace(R.id.fcvMain, OverviewFragment::class.java, null)
-                        .commit()
-                }
-
-                R.id.budget -> {
-                    this.supportFragmentManager.beginTransaction()
-                        .replace(R.id.fcvMain, BudgetFragment::class.java, null)
-                        .commit()
-                }
-
-                R.id.profile -> {
-                    this.supportFragmentManager.beginTransaction()
-                        .replace(R.id.fcvMain, ProfileFragment::class.java, null)
-                        .commit()
+            with (sharedPref.edit()) {
+                putInt("LastSelectedItemId", item.itemId)
+                apply()
+            }
+            val currentFragment = supportFragmentManager.findFragmentByTag(item.itemId.toString())
+            if (currentFragment == null) {
+                when (item.itemId) {
+                    R.id.activity -> replaceFragment(ActivityFragment(), item.itemId.toString())
+                    R.id.overview -> replaceFragment(OverviewFragment(), item.itemId.toString())
+                    R.id.budget -> replaceFragment(BudgetFragment(), item.itemId.toString())
+                    R.id.profile -> replaceFragment(ProfileFragment(), item.itemId.toString())
                 }
             }
             true
         }
+        homeBinding.bottomNavigationView.selectedItemId = lastSelectedItemId
+    }
 
-        homeBinding.bottomNavigationView.selectedItemId = R.id.activity
+    private fun replaceFragment(fragment: Fragment, tag: String) {
+        supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            replace(R.id.fcvMain, fragment, tag)
+            commit()
+        }
+    }
+
+    override fun onBackPressed() {
+        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            remove("LastSelectedItemId")
+            apply()
+        }
+        super.onBackPressed()
     }
 }
