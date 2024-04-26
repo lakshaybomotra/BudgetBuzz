@@ -1,6 +1,8 @@
 package com.lbdev.budgetbuzz.ui.view
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.os.Build
@@ -34,9 +36,12 @@ class CreateProfileActivity : BaseActivity() {
     private var pin: String = ""
     private var name: String = ""
     private var email: String = ""
+    lateinit var uPinPrefrences: SharedPreferences
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
+        uPinPrefrences =
+            this.getSharedPreferences("uPinPref", Context.MODE_PRIVATE)
         cpBinding = ActivityCreateProfileBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(cpBinding.root)
@@ -60,10 +65,11 @@ class CreateProfileActivity : BaseActivity() {
             if (cpBinding.verifyPasscode.text.toString().length == 4) {
                 if (cpBinding.passcode.text.toString() == cpBinding.verifyPasscode.text.toString()) {
                     Toast.makeText(this, "Pin created successfully", Toast.LENGTH_SHORT).show()
-                    androidx.preference.PreferenceManager.getDefaultSharedPreferences(this).edit()
-                        .putString("uPin", cpBinding.verifyPasscode.text.toString()).apply()
-
                     pin = cpBinding.verifyPasscode.text.toString()
+                    val editor = uPinPrefrences.edit()
+                    editor.putString("uPin", pin)
+                    editor.apply()
+
                     val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(cpBinding.root.windowToken, 0)
 
@@ -145,7 +151,7 @@ class CreateProfileActivity : BaseActivity() {
             }
         }
 
-        profileViewModel.savedProfile.observe(this) { profile ->
+        profileViewModel.savedProfileToFirebase.observe(this) { profile ->
             if (profile != null) {
                 cpBinding.saveProfileProgress.visibility = View.GONE
                 Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show()
@@ -202,8 +208,7 @@ class CreateProfileActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        val uPin = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
-            .getString("uPin", "")
+        val uPin = uPinPrefrences.getString("uPin", "")
         if (uPin != "") {
             startActivity(Intent(this, VerifyPinActivity::class.java))
             finish()

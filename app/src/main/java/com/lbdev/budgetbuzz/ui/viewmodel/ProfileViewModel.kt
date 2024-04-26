@@ -14,6 +14,9 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     private val _savedProfile = MutableLiveData<Profile?>()
     val savedProfile: MutableLiveData<Profile?> = _savedProfile
 
+    private val _savedProfileToFirebase = MutableLiveData<Profile?>()
+    val savedProfileToFirebase: MutableLiveData<Profile?> = _savedProfileToFirebase
+
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
@@ -34,6 +37,7 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
             profileRepository.saveUserProfile(userProfile)
         }
     }
+
     fun saveProfilePicToStorage(image: Bitmap) {
         profileRepository.saveProfileImage(image) { imageUrl, exception ->
             if (exception != null) {
@@ -51,7 +55,7 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
     fun saveProfileToFirebase(profile: Profile) {
         profileRepository.saveProfile(profile) { success, exception ->
             if (success) {
-                _savedProfile.postValue(profile)
+                _savedProfileToFirebase.postValue(profile)
             } else {
                 _error.postValue(exception?.localizedMessage ?: "An unknown error occurred")
             }
@@ -69,9 +73,7 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
                 _savedProfile.postValue(null)
                 _error.postValue(exception?.localizedMessage ?: "An unknown error occurred")
             }
-            isLoading.value = false
         }
-        isLoading.value = false
     }
 
     fun updatePin(userId: String, newPin: String) {
