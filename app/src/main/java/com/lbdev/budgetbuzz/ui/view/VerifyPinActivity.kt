@@ -17,10 +17,13 @@ class VerifyPinActivity : BaseActivity() {
     private lateinit var vpBinding: ActivityVerifyPinBinding
     private var biometricPref: SharedPreferences? = null
     private var isBiometricEnabled = false
+    lateinit var uPinPrefrences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         vpBinding = ActivityVerifyPinBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(vpBinding.root)
+        uPinPrefrences =
+            this.getSharedPreferences("uPinPref", Context.MODE_PRIVATE)
 
         profileViewModel.getFirebaseProfile()
 
@@ -46,6 +49,9 @@ class VerifyPinActivity : BaseActivity() {
                 if (profile != null) {
                     profileViewModel.saveUserProfile(profile)
                     if (profile.pin == pin) {
+                        val editor = uPinPrefrences.edit()
+                        editor.putString("uPin", pin)
+                        editor.apply()
                         finishAffinity()
                         startActivity(Intent(this, HomeActivity::class.java))
                         finish()
