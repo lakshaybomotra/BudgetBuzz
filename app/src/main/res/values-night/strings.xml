@@ -74,4 +74,7 @@
     <string name="terms_and_policy">Terms and Policy</string>
     <string name="logout">Logout</string>
     <string name="all">ALL</string>
+    <string name="add_budget">Add Budget</string>
+    <string name="budget_details">Budget Details</string>
+    <string name="my_budget">My Budget</string>
 </resources>

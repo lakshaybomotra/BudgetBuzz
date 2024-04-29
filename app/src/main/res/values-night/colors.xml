@@ -15,6 +15,8 @@
     <color name="grey_graph">#33D8D8D8</color>
     <color name="fill_graph">#CAF0F8</color>
     <color name="card_background">#27274D</color>
+    <color name="colorPrimary">#484A77</color>
+    <color name="colorPrimaryVariant">#484A77</color>
 
     <color name="example_4_grey">#474747</color>
     <color name="example_4_green">#008489</color>

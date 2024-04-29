@@ -1,13 +1,381 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_background"
     tools:context=".ui.view.BudgetFragment">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/forBackdropLL"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/budget" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/calendarTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#00FFFFFF"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp">
+
+            <RelativeLayout
+                android:id="@+id/topBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:fontFamily="@font/karla_bold"
+                    android:text="@string/budget"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/addBudgetIv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:contentDescription="@string/add_budget"
+                    android:src="@drawable/ic_add" />
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:id="@+id/backdrop_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendarTab">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/transactionDetailsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/activity_background"
+                app:cardCornerRadius="1dp"
+                app:cardElevation="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addTransactionAppBar">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/detailsTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/karla_bold"
+                        android:text="@string/budget_details"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/detailsTv">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/custom_input_field"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/calendarIconIV"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="15dp"
+                                android:layout_weight="0.5"
+                                android:contentDescription="@string/calendarIcon"
+                                android:src="@drawable/calendar"
+                                app:tint="@color/green_main" />
+
+                            <EditText
+                                android:id="@+id/budgetName"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="4"
+                                android:autoSizeTextType="uniform"
+                                android:background="@null"
+                                android:fontFamily="@font/karla_regular"
+                                android:gravity="center_vertical"
+                                android:hint="@string/my_budget" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/custom_input_field"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/noteIconIV"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="15dp"
+                                android:layout_weight="0.5"
+                                android:contentDescription="@string/noteIcon"
+                                android:src="@drawable/note_icon"
+                                app:tint="@color/green_main" />
+
+                            <EditText
+                                android:id="@+id/budgetAmount"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="4"
+                                android:autoSizeTextType="uniform"
+                                android:background="@null"
+                                android:fontFamily="@font/karla_regular"
+                                android:gravity="center_vertical"
+                                android:hint="@string/amount_hint_000"
+                                android:inputType="number" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/karla_regular"
+                                android:text="@string/notifications"
+                                android:textColor="@color/text_heading"
+                                android:textSize="22sp" />
+
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/budgetNotificationSwitch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="center_vertical"
+                                android:checked="false"
+                                app:thumbTint="@color/white"
+                                app:trackDecorationTint="@color/red_expense"
+                                app:trackTint="@color/red_expense" />
+
+                        </RelativeLayout>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/continuePinBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/green_gradient_bg"
+                            android:elevation="4dp"
+                            android:shadowColor="@color/black"
+                            android:text="@string/save"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/forBackdropLL">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/budgetNameTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/karla_bold"
+                        android:text="John's Budget"
+                        android:textColor="@color/text_description"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/budgetDetailsTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/karla_regular"
+                        android:text="@string/details"
+                        android:textColor="@color/text_heading"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/budgetSpendTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/karla_bold"
+                        android:textColor="@color/text_heading"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/budgetFromTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/karla_regular"
+                        android:textColor="@color/text_heading"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/budgetProgress"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="12dp"
+                        android:background="@drawable/budget_progress_bg"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="45" />
+
+                    <TextView
+                        android:id="@+id/progressPercentageTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/karla_regular"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/budgetFromDateTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/karla_regular"
+                        android:textColor="@color/text_heading"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/budgetToDateTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/karla_regular"
+                        android:textColor="@color/text_heading"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
