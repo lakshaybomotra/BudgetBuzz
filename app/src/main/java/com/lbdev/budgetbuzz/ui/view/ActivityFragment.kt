@@ -83,6 +83,12 @@ class ActivityFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            fromDate = Timestamp(Date(2000 - 1900, 4, 1))
+            toDate = Timestamp.now()
+            transactionsViewModel.getUserTransaction()
+        }
     }
 
     override fun onCreateView(
@@ -109,7 +115,7 @@ class ActivityFragment : Fragment() {
                 }
                 totalExpense = totalExpenses
                 totalIncome = totalIncomes
-//                binding.selectedFilterTv.text = "${fromDate.toDate().date} ${calendarMonths[fromDate.toDate().month]} ${fromDate.toDate().year + 1900} - ${toDate.toDate().date} ${calendarMonths[toDate.toDate().month]} ${toDate.toDate().year + 1900}"
+                binding.swipeRefreshLayout.isRefreshing = false
                 showTransactions()
             }
         }

@@ -84,8 +84,7 @@ dependencies {
     implementation("ru.cleverpumpkin:crunchycalendar:2.6.1")
     implementation("com.kizitonwose.calendar:view:2.5.0")
 
-//    implementation("com.github.AnyChart:AnyChart-Android:1.1.5")
-//    implementation("com.github.imaNNeoFighT:ArcChartView:1.0.3.1")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
 }
