@@ -3,6 +3,7 @@ package com.lbdev.budgetbuzz.ui.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -181,10 +182,10 @@ class ProfileFragment : Fragment() {
         }
 
         binding.termsButton.setOnClickListener {
-            binding.webview.visibility = View.VISIBLE
-            val privacyPolicyUrl =
-                "https://doc-hosting.flycricket.io/bazinga-privacy-policy/977c683e-5457-4457-8539-3c311e501e34/privacy"
-            binding.webview.loadUrl(privacyPolicyUrl)
+            val url = "https://doc-hosting.flycricket.io/bazinga-privacy-policy/977c683e-5457-4457-8539-3c311e501e34/privacy"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
         }
 
         binding.logoutButton.setOnClickListener {
