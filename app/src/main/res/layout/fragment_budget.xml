@@ -2,380 +2,1539 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/budgetDetailsCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_background"
     tools:context=".ui.view.BudgetFragment">
 
-    <LinearLayout
-        android:id="@+id/forBackdropLL"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/saveBudgetView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/calendarTab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="#00FFFFFF"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeWidth="0dp">
-
-            <RelativeLayout
-                android:id="@+id/topBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginEnd="6dp"
-                    android:layout_marginBottom="6dp"
-                    android:fontFamily="@font/karla_bold"
-                    android:text="@string/budget"
-                    android:textSize="22sp" />
-
-                <ImageView
-                    android:id="@+id/addBudgetIv"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:contentDescription="@string/add_budget"
-                    android:src="@drawable/ic_add" />
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
-
         <LinearLayout
-            android:id="@+id/backdrop_view"
+            android:id="@+id/forBackdropLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="10dp"
-            android:paddingBottom="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/calendarTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#00FFFFFF"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeWidth="0dp">
+
+                <RelativeLayout
+                    android:id="@+id/topBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:fontFamily="@font/karla_bold"
+                        android:text="@string/budget"
+                        android:textSize="22sp" />
+
+                    <ImageView
+                        android:id="@+id/addBudgetIv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:contentDescription="@string/add_budget"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/text_heading" />
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:id="@+id/backdrop_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="2dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calendarTab">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/transactionDetailsCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/activity_background"
+                    app:cardCornerRadius="1dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addTransactionAppBar">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ProgressBar
+                            android:id="@+id/addBudgetProgressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.5" />
+
+                        <TextView
+                            android:id="@+id/detailsTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/karla_bold"
+                            android:text="@string/budget_details"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/detailsTv">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginHorizontal="20dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/custom_input_field"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/calendarIconIV"
+                                    android:layout_width="0dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="15dp"
+                                    android:layout_weight="0.5"
+                                    android:contentDescription="@string/calendarIcon"
+                                    android:src="@drawable/budget"
+                                    app:tint="@color/green_main" />
+
+                                <EditText
+                                    android:id="@+id/budgetNameET"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_weight="4"
+                                    android:autoSizeTextType="uniform"
+                                    android:background="@null"
+                                    android:fontFamily="@font/karla_regular"
+                                    android:gravity="center_vertical"
+                                    android:hint="@string/my_budget" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginHorizontal="20dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:background="@drawable/custom_input_field"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/noteIconIV"
+                                    android:layout_width="0dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="15dp"
+                                    android:layout_weight="0.5"
+                                    android:contentDescription="@string/noteIcon"
+                                    android:src="@drawable/note_icon"
+                                    app:tint="@color/green_main" />
+
+                                <EditText
+                                    android:id="@+id/budgetAmountET"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_weight="4"
+                                    android:autoSizeTextType="uniform"
+                                    android:background="@null"
+                                    android:fontFamily="@font/karla_regular"
+                                    android:gravity="center_vertical"
+                                    android:hint="@string/amount_hint_000"
+                                    android:inputType="number" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginHorizontal="12dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:fontFamily="@font/karla_regular"
+                                    android:text="@string/notifications"
+                                    android:textColor="@color/text_heading"
+                                    android:textSize="22sp" />
+
+                                <com.google.android.material.materialswitch.MaterialSwitch
+                                    android:id="@+id/budgetNotificationSwitch"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_gravity="center_vertical"
+                                    android:checked="false"
+                                    app:thumbTint="@color/white"
+                                    app:trackDecorationTint="@color/red_expense"
+                                    app:trackTint="@color/red_expense" />
+
+                            </RelativeLayout>
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/saveBudgetBtn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/green_gradient_bg"
+                                android:elevation="4dp"
+                                android:shadowColor="@color/black"
+                                android:text="@string/save"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent" />
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/calendarTab">
+            app:layout_constraintTop_toBottomOf="@id/forBackdropLL">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/transactionDetailsCard"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/activity_background"
-                app:cardCornerRadius="1dp"
+                android:layout_margin="15dp"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="5dp"
                 app:cardElevation="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addTransactionAppBar">
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginHorizontal="12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/budgetNameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/karla_bold"
+                            android:textColor="@color/text_description"
+                            android:textSize="16sp" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/budgetDetailsCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            app:cardBackgroundColor="@color/card_background"
+                            app:cardCornerRadius="12dp"
+                            app:strokeColor="@color/text_heading"
+                            app:strokeWidth="1dp">
+
+                            <TextView
+                                android:id="@+id/budgetDetailsTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="6dp"
+                                android:layout_marginStart="10dp"
+                                android:fontFamily="@font/karla_regular"
+                                android:gravity="center"
+                                android:text="@string/details"
+                                android:textColor="@color/text_heading"
+                                android:textSize="16sp"
+                                app:drawableEndCompat="@drawable/ic_arrow_right" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/budgetSpendTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/karla_bold"
+                            android:textColor="@color/text_heading"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/budgetFromTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/karla_regular"
+                            android:textColor="@color/text_heading"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <ProgressBar
+                            android:id="@+id/budgetProgress"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="12dp"
+                            android:background="@drawable/budget_progress_bg"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="45" />
+
+                        <TextView
+                            android:id="@+id/progressPercentageTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/karla_regular"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/budgetFromDateTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/karla_regular"
+                            android:textColor="@color/text_heading"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/budgetToDateTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/karla_regular"
+                            android:textColor="@color/text_heading"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/budgetDetailsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <LinearLayout
+            android:id="@+id/budgetDetailsLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/budetDetailsTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#fff"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeWidth="0dp">
+
+                <RelativeLayout
+                    android:id="@+id/budgetDetailsTopBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp">
+
+                    <ImageView
+                        android:id="@+id/backToBudget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/calendar_ic_arrow_left" />
+
+                    <TextView
+                        android:id="@+id/bdNameTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:fontFamily="@font/karla_bold"
+                        android:text="@string/budget"
+                        android:textSize="22sp" />
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/budgetDetailsLL">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="6dp"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="6dp"
+                app:strokeWidth="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/detailsTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:layout_marginStart="20dp"
-                        android:fontFamily="@font/karla_bold"
-                        android:text="@string/budget_details"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                     <LinearLayout
+                        android:id="@+id/amountsLL"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/detailsTv">
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginTop="20dp"
-                            android:background="@drawable/custom_input_field"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/calendarIconIV"
-                                android:layout_width="0dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="15dp"
-                                android:layout_weight="0.5"
-                                android:contentDescription="@string/calendarIcon"
-                                android:src="@drawable/calendar"
-                                app:tint="@color/green_main" />
-
-                            <EditText
-                                android:id="@+id/budgetName"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:layout_weight="4"
-                                android:autoSizeTextType="uniform"
-                                android:background="@null"
-                                android:fontFamily="@font/karla_regular"
-                                android:gravity="center_vertical"
-                                android:hint="@string/my_budget" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/custom_input_field"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/noteIconIV"
-                                android:layout_width="0dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="15dp"
-                                android:layout_weight="0.5"
-                                android:contentDescription="@string/noteIcon"
-                                android:src="@drawable/note_icon"
-                                app:tint="@color/green_main" />
-
-                            <EditText
-                                android:id="@+id/budgetAmount"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:layout_weight="4"
-                                android:autoSizeTextType="uniform"
-                                android:background="@null"
-                                android:fontFamily="@font/karla_regular"
-                                android:gravity="center_vertical"
-                                android:hint="@string/amount_hint_000"
-                                android:inputType="number" />
-
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginHorizontal="12dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/karla_regular"
-                                android:text="@string/notifications"
-                                android:textColor="@color/text_heading"
-                                android:textSize="22sp" />
+                                android:layout_marginVertical="10dp"
+                                android:autoSizeTextType="uniform"
+                                android:maxLines="1"
+                                android:text="@string/spent_so_far"
+                                android:textColor="@color/text_description"
+                                android:textSize="12sp" />
 
-                            <com.google.android.material.materialswitch.MaterialSwitch
-                                android:id="@+id/budgetNotificationSwitch"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_gravity="center_vertical"
-                                android:checked="false"
-                                app:thumbTint="@color/white"
-                                app:trackDecorationTint="@color/red_expense"
-                                app:trackTint="@color/red_expense" />
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:text="@string/minusSign"
+                                    android:textColor="@color/red_expense"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    android:id="@+id/bdBudgetSpendTv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:maxWidth="100dp"
+                                    android:singleLine="true"
+                                    android:text="@string/zero"
+                                    android:textColor="@color/red_expense"
+                                    android:textSize="18sp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/grey_graph" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:autoSizeTextType="uniform"
+                                android:maxLines="1"
+                                android:text="@string/budget"
+                                android:textColor="@color/text_description"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:text="@string/currencySign"
+                                    android:textColor="@color/text_heading"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    android:id="@+id/bdBudgetTv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:maxWidth="100dp"
+                                    android:singleLine="true"
+                                    android:text="@string/zero"
+                                    android:textColor="@color/text_heading"
+                                    android:textSize="18sp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/hrDivider1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_graph"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/amountsLL" />
+
+                    <LinearLayout
+                        android:id="@+id/canSpendLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hrDivider1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:autoSizeTextType="uniform"
+                            android:maxLines="1"
+                            android:text="@string/keep_spending_you_can_spend"
+                            android:textColor="@color/text_description"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/karla_bold"
+                                android:text="@string/currencySign"
+                                android:textColor="@color/green_income"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/amountCanSpendTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/karla_bold"
+                                android:maxWidth="100dp"
+                                android:singleLine="true"
+                                android:text="@string/zero"
+                                android:textColor="@color/green_income"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:autoSizeTextType="uniform"
+                            android:maxLines="1"
+                            android:text="@string/each_day_for_the_rest_of_the_period"
+                            android:textColor="@color/text_description"
+                            android:textSize="12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp">
+
+                            <ProgressBar
+                                android:id="@+id/bdBudgetProgress"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="12dp"
+                                android:background="@drawable/budget_progress_bg"
+                                android:indeterminate="false"
+                                android:max="100"
+                                android:progress="45" />
+
+                            <TextView
+                                android:id="@+id/bdProgressPercentageTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginStart="20dp"
+                                android:fontFamily="@font/karla_regular"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
 
                         </RelativeLayout>
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/continuePinBtn"
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/green_gradient_bg"
-                            android:elevation="4dp"
-                            android:shadowColor="@color/black"
-                            android:text="@string/save"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/bdBudgetFromDateTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/karla_regular"
+                                android:textColor="@color/text_heading"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/bdBudgetToDateTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/karla_regular"
+                                android:textColor="@color/text_heading"
+                                android:textSize="12sp" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/hrDivider2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_graph"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/canSpendLL" />
+
+                    <LinearLayout
+                        android:id="@+id/cashFlowLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hrDivider2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/karla_bold"
+                            android:text="@string/cash_flow_so_far"
+                            android:textColor="@color/text_description"
+                            android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="4dp"
+                                app:cardElevation="6dp"
+                                app:strokeWidth="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/profile_gradient_bg"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:paddingVertical="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="10dp"
+                                        android:autoSizeTextType="uniform"
+                                        android:maxLines="1"
+                                        android:text="@string/spent_avg_day"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="10dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:text="@string/minusSign"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:text="@string/currencySign"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+
+                                        <TextView
+                                            android:id="@+id/avgSpentAmountTV"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:maxWidth="100dp"
+                                            android:singleLine="true"
+                                            android:text="@string/zero"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="4dp"
+                                app:cardElevation="6dp"
+                                app:strokeWidth="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/green_gradient_square"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:paddingVertical="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="10dp"
+                                        android:autoSizeTextType="uniform"
+                                        android:maxLines="1"
+                                        android:text="@string/best_day"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="10dp"
+                                        android:gravity="center"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:text="@string/minusSign"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+
+                                        <TextView
+                                            android:id="@+id/currencySignEarnedTV"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:text="@string/currencySign"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+
+                                        <TextView
+                                            android:id="@+id/bestDayAmountTV"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:maxWidth="100dp"
+                                            android:singleLine="true"
+                                            android:text="@string/zero"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="10dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_weight="1"
+                                app:cardBackgroundColor="@color/card_background"
+                                app:cardCornerRadius="4dp"
+                                app:cardElevation="6dp"
+                                app:strokeWidth="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/purple_gradient"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:paddingVertical="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="10dp"
+                                        android:autoSizeTextType="uniform"
+                                        android:maxLines="1"
+                                        android:text="@string/worst_day"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="10dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:text="@string/minusSign"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:text="@string/currencySign"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+
+                                        <TextView
+                                            android:id="@+id/worstDayAmountTV"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/karla_bold"
+                                            android:maxWidth="100dp"
+                                            android:singleLine="true"
+                                            android:text="@string/zero"
+                                            android:textColor="@color/white"
+                                            android:textSize="18sp" />
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/hrDivider3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_graph"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cashFlowLL" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hrDivider3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/karla_bold"
+                            android:text="@string/weekly_budget_spend"
+                            android:textColor="@color/text_description"
+                            android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/week1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:text="@string/week_1"
+                                    android:textColor="@color/text_heading"
+                                    android:textSize="18sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/minusSign"
+                                        android:textColor="#6D8FF7"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/currencySign"
+                                        android:textColor="#6D8FF7"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:id="@+id/week1AmountTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:textColor="#6D8FF7"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dp">
+
+                                <ProgressBar
+                                    android:id="@+id/week1ProgressBar"
+                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="18dp"
+                                    android:background="@drawable/budget_progress_bg"
+                                    android:indeterminate="false"
+                                    android:max="100"
+                                    android:progress="45"
+                                    android:progressDrawable="@drawable/blue_progress_bg" />
+
+                                <TextView
+                                    android:id="@+id/week1ProgressTv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:fontFamily="@font/karla_regular"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/week2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:text="@string/week_2"
+                                    android:textColor="@color/text_heading"
+                                    android:textSize="18sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/minusSign"
+                                        android:textColor="#AC70D4"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/currencySign"
+                                        android:textColor="#AC70D4"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:id="@+id/week2AmountTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:textColor="#AC70D4"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dp">
+
+                                <ProgressBar
+                                    android:id="@+id/week2ProgressBar"
+                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="18dp"
+                                    android:background="@drawable/budget_progress_bg"
+                                    android:indeterminate="false"
+                                    android:max="100"
+                                    android:progress="45"
+                                    android:progressDrawable="@drawable/purple_progress_bg" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/week2PreviousTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/week2CurrentTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/week2TotalTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/week3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:text="@string/week_3"
+                                    android:textColor="@color/text_heading"
+                                    android:textSize="18sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/minusSign"
+                                        android:textColor="#F07575"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/currencySign"
+                                        android:textColor="#F07575"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:id="@+id/week3AmountTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:textColor="#F07575"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dp">
+
+                                <ProgressBar
+                                    android:id="@+id/week3ProgressBar"
+                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="18dp"
+                                    android:background="@drawable/budget_progress_bg"
+                                    android:indeterminate="false"
+                                    android:max="100"
+                                    android:progress="45"
+                                    android:progressDrawable="@drawable/orange_progress_bg" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/week3PreviousTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/week3CurrentTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/week3TotalTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/week4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:text="@string/week_4"
+                                    android:textColor="@color/text_heading"
+                                    android:textSize="18sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/minusSign"
+                                        android:textColor="#6DE381"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/currencySign"
+                                        android:textColor="#6DE381"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:id="@+id/week4AmountTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:textColor="#6DE381"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dp">
+
+                                <ProgressBar
+                                    android:id="@+id/week4ProgressBar"
+                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="18dp"
+                                    android:background="@drawable/budget_progress_bg"
+                                    android:indeterminate="false"
+                                    android:max="100"
+                                    android:progress="45"
+                                    android:progressDrawable="@drawable/budget_green_progress_bar" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/week4PreviousTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/week4CurrentTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/week4TotalTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/week5LL"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginBottom="100dp"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/week5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:fontFamily="@font/karla_bold"
+                                    android:text="@string/week_5"
+                                    android:textColor="@color/text_heading"
+                                    android:textSize="18sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/minusSign"
+                                        android:textColor="#F76CC6"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:text="@string/currencySign"
+                                        android:textColor="#F76CC6"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:id="@+id/week5AmountTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_bold"
+                                        android:textColor="#F76CC6"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dp">
+
+                                <ProgressBar
+                                    android:id="@+id/week5ProgressBar"
+                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="18dp"
+                                    android:background="@drawable/budget_progress_bg"
+                                    android:indeterminate="false"
+                                    android:max="100"
+                                    android:progress="45"
+                                    android:progressDrawable="@drawable/pink_progress_bg" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/week5PreviousTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/week5CurrentTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/week5TotalTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/karla_regular"
+                                        android:textColor="@color/white"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forBackdropLL">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeWidth="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginHorizontal="12dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/budgetNameTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/karla_bold"
-                        android:text="John's Budget"
-                        android:textColor="@color/text_description"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/budgetDetailsTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/karla_regular"
-                        android:text="@string/details"
-                        android:textColor="@color/text_heading"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/budgetSpendTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/karla_bold"
-                        android:textColor="@color/text_heading"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/budgetFromTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/karla_regular"
-                        android:textColor="@color/text_heading"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <ProgressBar
-                        android:id="@+id/budgetProgress"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="12dp"
-                        android:background="@drawable/budget_progress_bg"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="45" />
-
-                    <TextView
-                        android:id="@+id/progressPercentageTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="20dp"
-                        android:fontFamily="@font/karla_regular"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="12dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/budgetFromDateTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/karla_regular"
-                        android:textColor="@color/text_heading"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/budgetToDateTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/karla_regular"
-                        android:textColor="@color/text_heading"
-                        android:textSize="12sp" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

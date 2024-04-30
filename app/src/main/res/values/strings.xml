@@ -77,4 +77,16 @@
     <string name="add_budget">Add Budget</string>
     <string name="budget_details">Budget Details</string>
     <string name="my_budget">My Budget</string>
+    <string name="keep_spending_you_can_spend">Keep spending :). You can spend</string>
+    <string name="each_day_for_the_rest_of_the_period">Each day for the rest of the period</string>
+    <string name="cash_flow_so_far">Cash Flow So far</string>
+    <string name="spent_avg_day">Spent Avg/Day</string>
+    <string name="best_day">Best Day</string>
+    <string name="worst_day">Worst Day</string>
+    <string name="weekly_budget_spend">Weekly Budget Spend</string>
+    <string name="week_1">Week 1</string>
+    <string name="week_2">Week 2</string>
+    <string name="week_3">Week 3</string>
+    <string name="week_4">Week 4</string>
+    <string name="week_5">Week 5</string>
 </resources>
