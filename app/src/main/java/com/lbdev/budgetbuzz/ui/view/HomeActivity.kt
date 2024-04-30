@@ -1,9 +1,19 @@
 package com.lbdev.budgetbuzz.ui.view
 
+import android.Manifest
 import android.content.Context
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.lbdev.budgetbuzz.R
 import com.lbdev.budgetbuzz.data.repository.CategoriesRepository
 import com.lbdev.budgetbuzz.data.repository.TransactionsRepository
@@ -14,17 +24,46 @@ import com.lbdev.budgetbuzz.ui.viewmodel.SharedViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.TransactionsViewModel
 
 class HomeActivity : BaseActivity() {
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(
+                        "firebaseMessaging",
+                        "Fetching FCM registration token failed",
+                        task.exception
+                    )
+                    return@OnCompleteListener
+                }
+            })
+            val editor = notificationPref.edit()
+            editor.putBoolean("notificationEnabled", true)
+            editor.apply()
+            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+        } else {
+            val editor = notificationPref.edit()
+            editor.putBoolean("notificationEnabled", false)
+            editor.apply()
+            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
     private lateinit var transactionsViewModel: TransactionsViewModel
     private lateinit var transactionsRepository: TransactionsRepository
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var categoriesRepository: CategoriesRepository
     private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var homeBinding: ActivityHomeBinding
+    private var isNotificationEnabled = true
+    lateinit var notificationPref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         homeBinding = ActivityHomeBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(homeBinding.root)
-
+        notificationPref = getSharedPreferences("notificationPref", Context.MODE_PRIVATE)
+        askNotificationPermission()
         categoriesRepository = CategoriesRepository()
         categoryViewModel = CategoryViewModel(categoriesRepository)
         categoryViewModel.loadCategories()
@@ -53,7 +92,7 @@ class HomeActivity : BaseActivity() {
         }
 
         homeBinding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            with (sharedPref.edit()) {
+            with(sharedPref.edit()) {
                 putInt("LastSelectedItemId", item.itemId)
                 apply()
             }
@@ -86,5 +125,47 @@ class HomeActivity : BaseActivity() {
             apply()
         }
         super.onBackPressed()
+    }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(
+                            "firebaseMessaging",
+                            "Fetching FCM registration token failed",
+                            task.exception
+                        )
+                        return@OnCompleteListener
+                    }
+                })
+
+                isNotificationEnabled = notificationPref.getBoolean("notificationEnabled", false)
+                if (isNotificationEnabled) {
+                    FirebaseMessaging.getInstance().subscribeToTopic("budgetbuzz")
+                        .addOnCompleteListener { task ->
+                            var msg = "Subscribed to topic: budgetbuzz"
+                            if (!task.isSuccessful) {
+                                msg = "Failed to subscribe to topic: budgetbuzz"
+                            }
+                            Log.d("firebaseMessaging", msg)
+                        }
+                } else {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("budgetbuzz")
+                        .addOnCompleteListener { task ->
+                            var msg = "Unsubscribed from topic: budgetbuzz"
+                            if (!task.isSuccessful) {
+                                msg = "Failed to unsubscribe from topic: budgetbuzz"
+                            }
+                            Log.d("firebaseMessaging", msg)
+                        }
+                }
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 }

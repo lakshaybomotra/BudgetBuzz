@@ -66,6 +66,7 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-messaging")
     //pinview
     implementation("io.github.chaosleung:pinview:1.4.4")
     //Biometric
