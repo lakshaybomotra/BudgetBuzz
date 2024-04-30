@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -55,6 +56,8 @@ class BudgetFragment : Fragment() {
         "November",
         "December"
     )
+    private var budgetNotificationPref: SharedPreferences? = null
+    private var isBudgetNotificationEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +81,7 @@ class BudgetFragment : Fragment() {
         budgetViewModel.getUserBudget()
         budgetViewModel.budget.observe(viewLifecycleOwner) { budget ->
             if (budget != null) {
+                sharedViewModel.userBudget(budget.amount)
                 binding.content.visibility = View.VISIBLE
                 binding.addBudgetIv.setImageDrawable(
                     ResourcesCompat.getDrawable(
@@ -97,218 +101,219 @@ class BudgetFragment : Fragment() {
                 }
                 binding.bdBudgetTv.text = budget.amount
                 totalBudget = budget.amount.toInt()
-            }
-        }
-        transactionsViewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-            val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
-            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-            val lastDate = Calendar.getInstance().apply {
-                set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
-                set(Calendar.MONTH, currentMonth)
-                set(Calendar.YEAR, currentYear)
-            }
-            val budgetFromDateTv = buildString {
-                append(calendarMonths[currentMonth])
-                append(" ")
-                append(1)
-                append(",")
-                append(" ")
-                append(currentYear)
-            }
-            binding.budgetFromDateTv.text = budgetFromDateTv
-            binding.bdBudgetFromDateTv.text = budgetFromDateTv
-
-            val budgetToDateTV = buildString {
-                append(calendarMonths[currentMonth])
-                append(" ")
-                append(lastDate.get(Calendar.DAY_OF_MONTH))
-                append(",")
-                append(" ")
-                append(currentYear)
-            }
-            binding.budgetToDateTv.text = budgetToDateTV
-            binding.bdBudgetToDateTv.text = budgetToDateTV
-
-            val monthTransactions = transactions.filter {
-                val transactionMonth = Calendar.getInstance().apply {
-                    time = it.date.toDate()
-                }.get(Calendar.MONTH)
-                transactionMonth == currentMonth
-            }
-            val expenseTransactions = monthTransactions.filter { it.type == "Expense" }
-            spentBudget =
-                expenseTransactions.filter { it.type == "Expense" }
-                    .sumOf { it.amount.toInt() }
-            val spentBudgetText = buildString {
-                append(getString(R.string.currencySign))
-                append(spentBudget)
-            }
-            binding.budgetSpendTv.text = spentBudgetText
-            binding.bdBudgetSpendTv.text = spentBudgetText
-
-            binding.budgetProgress.max = 100
-            val progress = ((spentBudget.toFloat() / totalBudget) * 100)
-            binding.budgetProgress.progress = progress.toInt()
-            if (progress > 50) {
-                binding.budgetProgress.progressDrawable = ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.budget_red_progress_bar,
-                    null
-                )
-            } else {
-                binding.budgetProgress.progressDrawable = ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.budget_green_progress_bar,
-                    null
-                )
-            }
-            val spentText = buildString {
-                append(progress)
-                append("%")
-            }
-            binding.progressPercentageTv.text = spentText
-
-            binding.bdBudgetProgress.max = 100
-            binding.bdBudgetProgress.progress = progress.toInt()
-            if (progress > 50) {
-                binding.bdBudgetProgress.progressDrawable = ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.budget_red_progress_bar,
-                    null
-                )
-            } else {
-                binding.bdBudgetProgress.progressDrawable = ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.budget_green_progress_bar,
-                    null
-                )
-            }
-            binding.bdProgressPercentageTv.text = spentText
-
-            val remainingBudget = totalBudget - spentBudget
-            val remainingDays = lastDate.get(Calendar.DAY_OF_MONTH) - Calendar.getInstance()
-                .get(Calendar.DAY_OF_MONTH) + 1
-            val canSpendPerDay = remainingBudget / remainingDays
-            binding.amountCanSpendTV.text = canSpendPerDay.toString()
-
-            val avgPerDaySpent =
-                spentBudget / Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-            binding.avgSpentAmountTV.text = avgPerDaySpent.toString()
-
-            val bestDay = expenseTransactions.minByOrNull { it.amount.toInt() }
-            val worstDay = expenseTransactions.maxByOrNull { it.amount.toInt() }
-            binding.bestDayAmountTV.text = bestDay?.amount
-            binding.worstDayAmountTV.text = worstDay?.amount
-
-            val weekCount = getWeeksInCurrentMonth()
-            for (i in 1..weekCount) {
-                val weekTransactions = expenseTransactions.filter {
-                    val transactionWeek = Calendar.getInstance().apply {
-                        time = it.date.toDate()
-                    }.get(Calendar.WEEK_OF_MONTH)
-                    transactionWeek == i
-                }
-                val weekExpenseAmount = weekTransactions.sumOf { it.amount.toInt() }
-                when (i) {
-                    1 -> {
-                        binding.week1AmountTv.text = weekExpenseAmount.toString()
-                        val week1Percent = String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
-                        binding.week1ProgressBar.max = 100
-                        binding.week1ProgressBar.progress = week1Percent.toInt()
-                        binding.week1ProgressTv.text = buildString {
-                            append(week1Percent)
-                            append("%")
-                        }
+                transactionsViewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+                    val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+                    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+                    val lastDate = Calendar.getInstance().apply {
+                        set(Calendar.DAY_OF_MONTH, getActualMaximum(Calendar.DAY_OF_MONTH))
+                        set(Calendar.MONTH, currentMonth)
+                        set(Calendar.YEAR, currentYear)
                     }
-
-                    2 -> {
-                        binding.week2AmountTv.text = weekExpenseAmount.toString()
-                        val previousPercent = binding.week1ProgressTv.text.toString().replace("%", "").toFloat()
-                        val week2Percent = String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
-                        binding.week2ProgressBar.max = 100
-                        binding.week2ProgressBar.progress = (previousPercent + week2Percent).toInt()
-                        binding.week2PreviousTv.text = buildString {
-                            append(previousPercent)
-                            append("% ")
-                        }
-                        binding.week2CurrentTv.text = buildString {
-                            append("+")
-                            append(" ")
-                            append(week2Percent)
-                            append("% = ")
-                        }
-                        binding.week2TotalTv.text = buildString {
-                            append(previousPercent + week2Percent)
-                            append("%")
-                        }
+                    val budgetFromDateTv = buildString {
+                        append(calendarMonths[currentMonth])
+                        append(" ")
+                        append(1)
+                        append(",")
+                        append(" ")
+                        append(currentYear)
                     }
+                    binding.budgetFromDateTv.text = budgetFromDateTv
+                    binding.bdBudgetFromDateTv.text = budgetFromDateTv
 
-                    3 -> {
-                        binding.week3AmountTv.text = weekExpenseAmount.toString()
-                        val previousPercent = binding.week2TotalTv.text.toString().replace("%", "").toFloat()
-                        val week3Percent =
-                            String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
-                        binding.week3ProgressBar.max = 100
-                        binding.week3ProgressBar.progress = (previousPercent + week3Percent).toInt()
-                        binding.week3PreviousTv.text = buildString {
-                            append(previousPercent)
-                            append("% ")
-                        }
-                        binding.week3CurrentTv.text = buildString {
-                            append("+")
-                            append(" ")
-                            append(week3Percent)
-                            append("% = ")
-                        }
-                        binding.week3TotalTv.text = buildString {
-                            append(previousPercent + week3Percent)
-                            append("%")
-                        }
+                    val budgetToDateTV = buildString {
+                        append(calendarMonths[currentMonth])
+                        append(" ")
+                        append(lastDate.get(Calendar.DAY_OF_MONTH))
+                        append(",")
+                        append(" ")
+                        append(currentYear)
                     }
+                    binding.budgetToDateTv.text = budgetToDateTV
+                    binding.bdBudgetToDateTv.text = budgetToDateTV
 
-                    4 -> {
-                        binding.week4AmountTv.text = weekExpenseAmount.toString()
-                        val previousPercent = binding.week3TotalTv.text.toString().replace("%", "").toFloat()
-                        val week4Percent =
-                            String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
-                        binding.week4ProgressBar.max = 100
-                        binding.week4ProgressBar.progress = (previousPercent + week4Percent).toInt()
-                        binding.week4PreviousTv.text = buildString {
-                            append(previousPercent)
-                            append("% ")
-                        }
-                        binding.week4CurrentTv.text = buildString {
-                            append("+")
-                            append(" ")
-                            append(week4Percent)
-                            append("% = ")
-                        }
-                        binding.week4TotalTv.text = buildString {
-                            append(previousPercent + week4Percent)
-                            append("%")
-                        }
+                    val monthTransactions = transactions.filter {
+                        val transactionMonth = Calendar.getInstance().apply {
+                            time = it.date.toDate()
+                        }.get(Calendar.MONTH)
+                        transactionMonth == currentMonth
                     }
+                    val expenseTransactions = monthTransactions.filter { it.type == "Expense" }
+                    spentBudget =
+                        expenseTransactions.filter { it.type == "Expense" }
+                            .sumOf { it.amount.toInt() }
+                    val spentBudgetText = buildString {
+                        append(getString(R.string.currencySign))
+                        append(spentBudget)
+                    }
+                    sharedViewModel.userExpense(spentBudget)
+                    binding.budgetSpendTv.text = spentBudgetText
+                    binding.bdBudgetSpendTv.text = spentBudgetText
 
-                    5 -> {
-                        binding.week5AmountTv.text = weekExpenseAmount.toString()
-                        val previousPercent = binding.week4TotalTv.text.toString().replace("%", "").toFloat()
-                        val week5Percent =
-                            String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
-                        binding.week5ProgressBar.max = 100
-                        binding.week5ProgressBar.progress = (previousPercent + week5Percent).toInt()
-                        binding.week5PreviousTv.text = buildString {
-                            append(previousPercent)
-                            append("% ")
+                    binding.budgetProgress.max = 100
+                    val progress = ((spentBudget.toFloat() / totalBudget) * 100)
+                    binding.budgetProgress.progress = progress.toInt()
+                    if (progress > 50) {
+                        binding.budgetProgress.progressDrawable = ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.budget_red_progress_bar,
+                            null
+                        )
+                    } else {
+                        binding.budgetProgress.progressDrawable = ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.budget_green_progress_bar,
+                            null
+                        )
+                    }
+                    val spentText = buildString {
+                        append(progress)
+                        append("%")
+                    }
+                    binding.progressPercentageTv.text = spentText
+
+                    binding.bdBudgetProgress.max = 100
+                    binding.bdBudgetProgress.progress = progress.toInt()
+                    if (progress > 50) {
+                        binding.bdBudgetProgress.progressDrawable = ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.budget_red_progress_bar,
+                            null
+                        )
+                    } else {
+                        binding.bdBudgetProgress.progressDrawable = ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.budget_green_progress_bar,
+                            null
+                        )
+                    }
+                    binding.bdProgressPercentageTv.text = spentText
+
+                    val remainingBudget = totalBudget - spentBudget
+                    val remainingDays = lastDate.get(Calendar.DAY_OF_MONTH) - Calendar.getInstance()
+                        .get(Calendar.DAY_OF_MONTH) + 1
+                    val canSpendPerDay = remainingBudget / remainingDays
+                    binding.amountCanSpendTV.text = canSpendPerDay.toString()
+
+                    val avgPerDaySpent =
+                        spentBudget / Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+                    binding.avgSpentAmountTV.text = avgPerDaySpent.toString()
+
+                    val bestDay = expenseTransactions.minByOrNull { it.amount.toInt() }
+                    val worstDay = expenseTransactions.maxByOrNull { it.amount.toInt() }
+                    binding.bestDayAmountTV.text = bestDay?.amount
+                    binding.worstDayAmountTV.text = worstDay?.amount
+
+                    val weekCount = getWeeksInCurrentMonth()
+                    for (i in 1..weekCount) {
+                        val weekTransactions = expenseTransactions.filter {
+                            val transactionWeek = Calendar.getInstance().apply {
+                                time = it.date.toDate()
+                            }.get(Calendar.WEEK_OF_MONTH)
+                            transactionWeek == i
                         }
-                        binding.week5CurrentTv.text = buildString {
-                            append("+")
-                            append(" ")
-                            append(week5Percent)
-                            append("% = ")
-                        }
-                        binding.week5TotalTv.text = buildString {
-                            append(previousPercent + week5Percent)
-                            append("%")
+                        val weekExpenseAmount = weekTransactions.sumOf { it.amount.toInt() }
+                        when (i) {
+                            1 -> {
+                                binding.week1AmountTv.text = weekExpenseAmount.toString()
+                                val week1Percent = String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                binding.week1ProgressBar.max = 100
+                                binding.week1ProgressBar.progress = week1Percent.toInt()
+                                binding.week1ProgressTv.text = buildString {
+                                    append(week1Percent)
+                                    append("%")
+                                }
+                            }
+
+                            2 -> {
+                                binding.week2AmountTv.text = weekExpenseAmount.toString()
+                                val previousPercent = binding.week1ProgressTv.text.toString().replace("%", "").toFloat()
+                                val week2Percent = String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                binding.week2ProgressBar.max = 100
+                                binding.week2ProgressBar.progress = (previousPercent + week2Percent).toInt()
+                                binding.week2PreviousTv.text = buildString {
+                                    append(previousPercent)
+                                    append("% ")
+                                }
+                                binding.week2CurrentTv.text = buildString {
+                                    append("+")
+                                    append(" ")
+                                    append(week2Percent)
+                                    append("% = ")
+                                }
+                                binding.week2TotalTv.text = buildString {
+                                    append(previousPercent + week2Percent)
+                                    append("%")
+                                }
+                            }
+
+                            3 -> {
+                                binding.week3AmountTv.text = weekExpenseAmount.toString()
+                                val previousPercent = binding.week2TotalTv.text.toString().replace("%", "").toFloat()
+                                val week3Percent =
+                                    String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                binding.week3ProgressBar.max = 100
+                                binding.week3ProgressBar.progress = (previousPercent + week3Percent).toInt()
+                                binding.week3PreviousTv.text = buildString {
+                                    append(previousPercent)
+                                    append("% ")
+                                }
+                                binding.week3CurrentTv.text = buildString {
+                                    append("+")
+                                    append(" ")
+                                    append(week3Percent)
+                                    append("% = ")
+                                }
+                                binding.week3TotalTv.text = buildString {
+                                    append(previousPercent + week3Percent)
+                                    append("%")
+                                }
+                            }
+
+                            4 -> {
+                                binding.week4AmountTv.text = weekExpenseAmount.toString()
+                                val previousPercent = binding.week3TotalTv.text.toString().replace("%", "").toFloat()
+                                val week4Percent =
+                                    String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                binding.week4ProgressBar.max = 100
+                                binding.week4ProgressBar.progress = (previousPercent + week4Percent).toInt()
+                                binding.week4PreviousTv.text = buildString {
+                                    append(previousPercent)
+                                    append("% ")
+                                }
+                                binding.week4CurrentTv.text = buildString {
+                                    append("+")
+                                    append(" ")
+                                    append(week4Percent)
+                                    append("% = ")
+                                }
+                                binding.week4TotalTv.text = buildString {
+                                    append(previousPercent + week4Percent)
+                                    append("%")
+                                }
+                            }
+
+                            5 -> {
+                                binding.week5AmountTv.text = weekExpenseAmount.toString()
+                                val previousPercent = binding.week4TotalTv.text.toString().replace("%", "").toFloat()
+                                val week5Percent =
+                                    String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                binding.week5ProgressBar.max = 100
+                                binding.week5ProgressBar.progress = (previousPercent + week5Percent).toInt()
+                                binding.week5PreviousTv.text = buildString {
+                                    append(previousPercent)
+                                    append("% ")
+                                }
+                                binding.week5CurrentTv.text = buildString {
+                                    append("+")
+                                    append(" ")
+                                    append(week5Percent)
+                                    append("% = ")
+                                }
+                                binding.week5TotalTv.text = buildString {
+                                    append(previousPercent + week5Percent)
+                                    append("%")
+                                }
+                            }
                         }
                     }
                 }
@@ -336,6 +341,15 @@ class BudgetFragment : Fragment() {
             val budgetName = binding.budgetNameET.text.toString()
             val budgetAmount = binding.budgetAmountET.text.toString()
             val budget = Budget(budgetName, budgetAmount)
+            if (binding.budgetNotificationSwitch.isChecked) {
+                val editor = budgetNotificationPref!!.edit()
+                editor.putBoolean("budgetNotificationEnabled", isBudgetNotificationEnabled)
+                editor.apply()
+            } else {
+                val editor = budgetNotificationPref!!.edit()
+                editor.putBoolean("budgetNotificationEnabled", isBudgetNotificationEnabled)
+                editor.apply()
+            }
             budgetViewModel.saveUserBudget(budget)
         }
 
@@ -365,7 +379,26 @@ class BudgetFragment : Fragment() {
         }
 
         val budgetNotificationSwitch = binding.budgetNotificationSwitch
+
+        budgetNotificationPref =
+            requireActivity().getSharedPreferences("budgetNotificationPref", Context.MODE_PRIVATE)
+        isBudgetNotificationEnabled = budgetNotificationPref!!.getBoolean("budgetNotificationEnabled", false)
+
+        if (isBudgetNotificationEnabled) {
+            budgetNotificationSwitch.trackDecorationTintList =
+                resources.getColorStateList(R.color.green_income, null)
+            budgetNotificationSwitch.trackTintList =
+                resources.getColorStateList(R.color.green_income, null)
+        } else {
+            budgetNotificationSwitch.trackDecorationTintList =
+                resources.getColorStateList(R.color.red_expense, null)
+            budgetNotificationSwitch.trackTintList =
+                resources.getColorStateList(R.color.red_expense, null)
+        }
+        budgetNotificationSwitch.isChecked = isBudgetNotificationEnabled
+
         budgetNotificationSwitch.setOnCheckedChangeListener { _, b ->
+            isBudgetNotificationEnabled = b
             if (b) {
                 budgetNotificationSwitch.trackDecorationTintList =
                     resources.getColorStateList(R.color.green_income, null)

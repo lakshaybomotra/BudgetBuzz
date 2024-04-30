@@ -10,6 +10,8 @@ class SharedViewModel : ViewModel() {
     val expenseCategories: MutableLiveData<List<Category>> = MutableLiveData()
     val incomeCategories: MutableLiveData<List<Category>> = MutableLiveData()
     val isTransactionAdded: MutableLiveData<Boolean> = MutableLiveData(false)
+    val userBudget: MutableLiveData<String> = MutableLiveData("0")
+    val userExpense: MutableLiveData<Int> = MutableLiveData(0)
 
     fun removeSelectedItem() {
         selectedItem.value = Category(
@@ -27,6 +29,13 @@ class SharedViewModel : ViewModel() {
 
     fun addIncomeCategory(categories: List<Category>) {
         incomeCategories.value = categories
+    }
+
+    fun userBudget(budget: String) {
+        userBudget.value = budget
+    }
+    fun userExpense(expense: Int) {
+        userExpense.value = expense
     }
 
     private fun colorToHex(color: Int): String {

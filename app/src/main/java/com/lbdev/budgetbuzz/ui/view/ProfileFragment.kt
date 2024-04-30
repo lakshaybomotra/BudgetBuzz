@@ -178,6 +178,18 @@ class ProfileFragment : Fragment() {
                     resources.getColorStateList(R.color.green_income, null)
                 notificationSwitch.trackTintList =
                     resources.getColorStateList(R.color.green_income, null)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    askNotificationPermission()
+                } else {
+                    FirebaseMessaging.getInstance().subscribeToTopic("budgetbuzz")
+                        .addOnCompleteListener { task ->
+                            var msg = "Subscribed to topic: budgetbuzz"
+                            if (!task.isSuccessful) {
+                                msg = "Failed to subscribe to topic: budgetbuzz"
+                            }
+                            Log.d("firebaseMessaging", msg)
+                        }
+                }
                 askNotificationPermission()
             } else {
                 notificationSwitch.trackDecorationTintList =
@@ -226,10 +238,10 @@ class ProfileFragment : Fragment() {
         }
 
         binding.termsButton.setOnClickListener {
-            binding.webview.visibility = View.VISIBLE
-            val privacyPolicyUrl =
-                "https://doc-hosting.flycricket.io/bazinga-privacy-policy/977c683e-5457-4457-8539-3c311e501e34/privacy"
-            binding.webview.loadUrl(privacyPolicyUrl)
+            val url = "https://doc-hosting.flycricket.io/bazinga-privacy-policy/977c683e-5457-4457-8539-3c311e501e34/privacy"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
         }
 
         binding.logoutButton.setOnClickListener {

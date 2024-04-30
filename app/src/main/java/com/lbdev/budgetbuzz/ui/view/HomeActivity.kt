@@ -15,13 +15,16 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.lbdev.budgetbuzz.R
+import com.lbdev.budgetbuzz.data.repository.BudgetRepository
 import com.lbdev.budgetbuzz.data.repository.CategoriesRepository
 import com.lbdev.budgetbuzz.data.repository.TransactionsRepository
 import com.lbdev.budgetbuzz.databinding.ActivityHomeBinding
 import com.lbdev.budgetbuzz.ui.base.BaseActivity
+import com.lbdev.budgetbuzz.ui.viewmodel.BudgetViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.CategoryViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.SharedViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.TransactionsViewModel
+import java.util.Calendar
 
 class HomeActivity : BaseActivity() {
     private val requestPermissionLauncher = registerForActivityResult(
@@ -53,6 +56,8 @@ class HomeActivity : BaseActivity() {
     private lateinit var transactionsRepository: TransactionsRepository
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var categoriesRepository: CategoriesRepository
+    private val budgetRepository = BudgetRepository()
+    private lateinit var budgetViewModel: BudgetViewModel
     private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var homeBinding: ActivityHomeBinding
     private var isNotificationEnabled = true
@@ -69,7 +74,32 @@ class HomeActivity : BaseActivity() {
         categoryViewModel.loadCategories()
         transactionsRepository = TransactionsRepository()
         transactionsViewModel = TransactionsViewModel(transactionsRepository)
+        budgetViewModel = BudgetViewModel(budgetRepository)
+        budgetViewModel.getUserBudget()
+        budgetViewModel.budget.observe(this) { budget ->
+            sharedViewModel.userBudget(budget?.amount.toString())
+        }
         transactionsViewModel.getUserTransaction()
+        transactionsViewModel.transactions.observe(this) { transactions ->
+            val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+            val monthTransactions = transactions.filter {
+                val transactionMonth = Calendar.getInstance().apply {
+                    time = it.date.toDate()
+                }.get(Calendar.MONTH)
+                transactionMonth == currentMonth
+            }
+            val expenseTransactions = monthTransactions.filter { it.type == "Expense" }
+            val spentBudget =
+                expenseTransactions.filter { it.type == "Expense" }
+                    .sumOf { it.amount.toInt() }
+            sharedViewModel.userExpense(spentBudget)
+        }
+        sharedViewModel.userBudget.observe(this) { budget ->
+            Log.d("budget", "onCreate: " + budget)
+        }
+        sharedViewModel.userExpense.observe(this) { expense ->
+            Log.d("expense", "onCreate: " + expense)
+        }
         categoryViewModel.expenseCategories.observe(this) { list ->
             sharedViewModel.addExpenseCategory(list)
         }

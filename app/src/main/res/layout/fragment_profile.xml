@@ -403,11 +403,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:visibility="gone" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

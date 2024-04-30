@@ -1,6 +1,8 @@
 package com.lbdev.budgetbuzz.ui.view
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -18,6 +20,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import coil.decode.SvgDecoder
 import coil.load
 import com.google.firebase.Timestamp
@@ -31,7 +36,9 @@ import com.lbdev.budgetbuzz.ui.adaptor.PagerAdapter
 import com.lbdev.budgetbuzz.ui.viewmodel.CategoryViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.SharedViewModel
 import com.lbdev.budgetbuzz.ui.viewmodel.TransactionsViewModel
+import com.lbdev.budgetbuzz.util.BudgetNotificationWorker
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 class AddTransactionFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by activityViewModels()
@@ -57,6 +64,11 @@ class AddTransactionFragment : Fragment() {
         "November",
         "December"
     )
+    private var transactionType = "Expense"
+    private var budget = 0
+    private var expense = 0
+    private var budgetNotificationPref: SharedPreferences? = null
+    private var isBudgetNotificationEnabled = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -257,7 +269,7 @@ class AddTransactionFragment : Fragment() {
                     binding.transactionNote.text.toString(),
                     "Expense"
                 )
-
+                this.transactionType = "Expense"
                 transactionsViewModel.saveUserTransaction(expense)
             } else {
                 val income = Transaction(
@@ -267,16 +279,14 @@ class AddTransactionFragment : Fragment() {
                     binding.transactionNote.text.toString(),
                     "Income"
                 )
-
+                this.transactionType = "Income"
                 transactionsViewModel.saveUserTransaction(income)
             }
-
 
             transactionsViewModel.savedTransaction.observe(viewLifecycleOwner) {
                 binding.transactionSubmitBtn.isEnabled = true
 
                 sharedViewModel.isTransactionAdded.value = true
-
                 Toast.makeText(
                     requireContext(), "Transaction Saved", Toast.LENGTH_SHORT
                 ).show()
@@ -284,6 +294,39 @@ class AddTransactionFragment : Fragment() {
                 transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
                 transaction.remove(this)
                 transaction.commit()
+
+                if (transactionType == "Expense") {
+                    sharedViewModel.userExpense.value = sharedViewModel.userExpense.value?.plus(
+                        binding.amountET.text.toString().toInt()
+                    )
+                    sharedViewModel.userBudget.observe(viewLifecycleOwner) { budget ->
+                        if (!budget.isNullOrEmpty()) {
+                            budgetNotificationPref = requireActivity().getSharedPreferences(
+                                "budgetNotificationPref", Context.MODE_PRIVATE
+                            )
+                            isBudgetNotificationEnabled = budgetNotificationPref!!.getBoolean(
+                                "budgetNotificationEnabled", false
+                            )
+                            if (isBudgetNotificationEnabled) {
+                                this.budget = budget.toInt()
+                                sharedViewModel.userExpense.observe(viewLifecycleOwner) { expense ->
+                                    this.expense = expense
+                                    val balance = this.budget - expense
+                                    val data = Data.Builder().putInt("balance", balance).build()
+
+                                    val notificationWork =
+                                        OneTimeWorkRequestBuilder<BudgetNotificationWorker>().setInitialDelay(
+                                            10,
+                                            TimeUnit.SECONDS
+                                        ).setInputData(data).build()
+
+                                    WorkManager.getInstance(requireContext())
+                                        .enqueue(notificationWork)
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             transactionsViewModel.error.observe(viewLifecycleOwner) { error ->
