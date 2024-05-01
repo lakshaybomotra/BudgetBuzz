@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/exFourContinuousBackgroundView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp" />
+
+    <!--We have top and bottom margins on the exFourContinuousBackgroundView so
+     there's vertical space between continuous selected rows. This means that
+     setting an oval background (single selection / today) on it will result in
+     the background not being a perfect circle since the view is not square in shape.
+     So we set the background on this view which has a margin on all sides instead-->
+    <View
+        android:id="@+id/exFourRoundBackgroundView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp" />
+
+    <TextView
+        android:id="@+id/exFourDayText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="16sp"
+        tools:text="22" />
+</FrameLayout>

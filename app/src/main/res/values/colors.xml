@@ -2,4 +2,31 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="expense_button">#F07590</color>
+    <color name="income_button">#4fab9a</color>
+    <color name="activity_background">#F7F8FE</color>
+    <color name="text_heading">#1C1C1C</color>
+    <color name="text_description">#656565</color>
+    <color name="login_background">#FFFFFF</color>
+    <color name="nav_icon_color_inactive">#979797</color>
+    <color name="green_main">#2DC897</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="add_transaction_app_bar">#FFFFFF</color>
+    <color name="red_expense">#CF414B</color>
+    <color name="green_income">#4CAF50</color>
+    <color name="blue_graph">#82C3FB</color>
+    <color name="grey_graph">#CBCBCB</color>
+    <color name="fill_graph">#CAF0F8</color>
+    <color name="card_background">#FFFFFFFF</color>
+    <color name="colorPrimary">#D2D2D2</color>
+    <color name="colorPrimaryVariant">#484A77</color>
+
+    <color name="example_4_grey">#6A6A6A</color>
+    <color name="example_4_green">#008489</color>
+    <color name="example_4_continuous_selection">#0F000000</color>
+    <color name="example_4_grey_past">#BEBEBE</color>
 </resources>
