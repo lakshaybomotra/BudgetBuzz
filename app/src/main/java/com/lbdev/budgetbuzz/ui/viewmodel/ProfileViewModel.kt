@@ -38,6 +38,12 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         }
     }
 
+    fun deleteAllProfiles() {
+        viewModelScope.launch {
+            profileRepository.deleteAllProfiles()
+        }
+    }
+
     fun saveProfilePicToStorage(image: Bitmap) {
         profileRepository.saveProfileImage(image) { imageUrl, exception ->
             if (exception != null) {
@@ -66,13 +72,11 @@ class ProfileViewModel(private val profileRepository: ProfileRepository) : ViewM
         isLoading.value = true
         profileRepository.getProfile { profile, exception ->
             if (profile != null) {
-                isLoading.value = false
                 _savedProfile.postValue(profile)
             } else {
-                isLoading.value = false
-                _savedProfile.postValue(null)
                 _error.postValue(exception?.localizedMessage ?: "An unknown error occurred")
             }
+            isLoading.value = false
         }
     }
 

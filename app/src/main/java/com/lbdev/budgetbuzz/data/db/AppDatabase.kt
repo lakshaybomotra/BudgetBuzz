@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.lbdev.budgetbuzz.data.db.dao.UserProfileDao
 import com.lbdev.budgetbuzz.data.model.Profile
 
-@Database(entities = [Profile::class], version = 1)
+@Database(entities = [Profile::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userProfileDao(): UserProfileDao

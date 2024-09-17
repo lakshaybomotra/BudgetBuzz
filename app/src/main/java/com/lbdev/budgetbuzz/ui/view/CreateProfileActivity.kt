@@ -35,7 +35,7 @@ class CreateProfileActivity : BaseActivity() {
     private lateinit var profilePic: Bitmap
     private var pin: String = ""
     private var name: String = ""
-    private var email: String = ""
+    private var phoneNumber: String = ""
     lateinit var uPinPrefrences: SharedPreferences
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -124,11 +124,11 @@ class CreateProfileActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            if (cpBinding.personEmail.text.toString().isNotEmpty()) {
-                email = cpBinding.personEmail.text.toString()
-                cpBinding.personEmail.error = null
+            if (cpBinding.personPhoneNumber.text.toString().isNotEmpty()) {
+                phoneNumber = cpBinding.personPhoneNumber.text.toString()
+                cpBinding.personPhoneNumber.error = null
             } else {
-                cpBinding.personEmail.error = "Enter email"
+                cpBinding.personPhoneNumber.error = "Enter phone number"
                 return@setOnClickListener
             }
             cpBinding.savePersonalDetailsBtn.isEnabled = false
@@ -141,10 +141,10 @@ class CreateProfileActivity : BaseActivity() {
             if (imageUrl != null) {
                 val profile = Profile(
                     auth.uid!!,
-                    email,
+                    auth.currentUser?.email!!,
                     name,
                     pin,
-                    auth.currentUser?.phoneNumber!!,
+                    phoneNumber,
                     imageUrl
                 )
                 profileViewModel.saveProfileToFirebase(profile)

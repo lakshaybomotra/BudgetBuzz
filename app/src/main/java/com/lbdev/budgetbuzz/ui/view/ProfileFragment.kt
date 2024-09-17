@@ -32,6 +32,7 @@ import com.lbdev.budgetbuzz.data.repository.ProfileRepository
 import com.lbdev.budgetbuzz.databinding.FragmentProfileBinding
 import com.lbdev.budgetbuzz.ui.viewmodel.ProfileViewModel
 import com.lbdev.budgetbuzz.util.ProfileViewModelFactory
+import java.io.File
 
 class ProfileFragment : Fragment() {
     private val requestPermissionLauncher = registerForActivityResult(
@@ -95,10 +96,16 @@ class ProfileFragment : Fragment() {
 
         profileViewModel.getUserProfile(auth.currentUser!!.uid)
             .observe(viewLifecycleOwner) { profile ->
-                binding.profileName.text = profile.name
-                binding.profileNumber.text = profile.phone
-                binding.profilePic.load(profile.image) {
-                    placeholder(R.drawable.account_profile_dummy)
+                if (profile != null) {
+                    binding.profileName.text = profile.name
+                    binding.profileNumber.text = profile.phone
+                    binding.profilePic.load(profile.image) {
+                        placeholder(R.drawable.account_profile_dummy)
+                    }
+                } else {
+                    binding.profileName.text = ""
+                    binding.profileNumber.text = ""
+                    binding.profilePic.setImageResource(R.drawable.account_profile_dummy)
                 }
             }
 
@@ -208,9 +215,9 @@ class ProfileFragment : Fragment() {
         }
 
         binding.supportButton.setOnClickListener {
-            val mIntent = Intent(Intent.ACTION_SEND)
-            mIntent.setType("message/rfc822")
-            mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("budgetbuzz@gmail.com"))
+            val mIntent = Intent(Intent.ACTION_SENDTO)
+            mIntent.setData(Uri.parse("mailto:"))
+            mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("lakshaybomotra00@gmail.com"))
             mIntent.putExtra(Intent.EXTRA_SUBJECT, "Support Request")
             mIntent.putExtra(
                 Intent.EXTRA_TEXT,
@@ -245,12 +252,27 @@ class ProfileFragment : Fragment() {
         }
 
         binding.logoutButton.setOnClickListener {
-            auth.signOut()
+            FirebaseAuth.getInstance().signOut()
+            clearAllSharedPreferences(requireContext())
+            profileViewModel.deleteAllProfiles()
             startActivity(Intent(requireContext(), LoginSignupActivity::class.java))
             requireActivity().finish()
         }
 
         return view
+    }
+
+    private fun clearAllSharedPreferences(context: Context) {
+        val sharedPrefsDir = File(context.applicationInfo.dataDir, "shared_prefs")
+        val sharedPrefsFiles = sharedPrefsDir.listFiles()
+
+        if (sharedPrefsFiles != null) {
+            for (file in sharedPrefsFiles) {
+                val prefsName = file.nameWithoutExtension
+                val sharedPreferences: SharedPreferences = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+                sharedPreferences.edit().clear().apply()
+            }
+        }
     }
 
     private fun askNotificationPermission() {

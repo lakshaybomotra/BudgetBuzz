@@ -68,6 +68,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-inappmessaging-display")
     //pinview
     implementation("io.github.chaosleung:pinview:1.4.4")
     //Biometric

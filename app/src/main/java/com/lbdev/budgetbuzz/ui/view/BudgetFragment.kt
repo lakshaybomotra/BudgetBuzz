@@ -29,6 +29,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 import java.util.Calendar
+import java.util.Locale
 
 class BudgetFragment : Fragment() {
     private var _binding: FragmentBudgetBinding? = null
@@ -191,8 +192,16 @@ class BudgetFragment : Fragment() {
                     val remainingBudget = totalBudget - spentBudget
                     val remainingDays = lastDate.get(Calendar.DAY_OF_MONTH) - Calendar.getInstance()
                         .get(Calendar.DAY_OF_MONTH) + 1
-                    val canSpendPerDay = remainingBudget / remainingDays
-                    binding.amountCanSpendTV.text = canSpendPerDay.toString()
+                    if (remainingBudget > 0)
+                    {
+                        binding.noLL.visibility = View.GONE
+                        binding.yesLL.visibility = View.VISIBLE
+                        val canSpendPerDay = remainingBudget / remainingDays
+                        binding.amountCanSpendTV.text = canSpendPerDay.toString()
+                    } else {
+                        binding.yesLL.visibility = View.GONE
+                        binding.noLL.visibility = View.VISIBLE
+                    }
 
                     val avgPerDaySpent =
                         spentBudget / Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -215,7 +224,7 @@ class BudgetFragment : Fragment() {
                         when (i) {
                             1 -> {
                                 binding.week1AmountTv.text = weekExpenseAmount.toString()
-                                val week1Percent = String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                val week1Percent = String.format(Locale("en"), "%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
                                 binding.week1ProgressBar.max = 100
                                 binding.week1ProgressBar.progress = week1Percent.toInt()
                                 binding.week1ProgressTv.text = buildString {
@@ -227,7 +236,7 @@ class BudgetFragment : Fragment() {
                             2 -> {
                                 binding.week2AmountTv.text = weekExpenseAmount.toString()
                                 val previousPercent = binding.week1ProgressTv.text.toString().replace("%", "").toFloat()
-                                val week2Percent = String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                val week2Percent = String.format(Locale("en"),"%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
                                 binding.week2ProgressBar.max = 100
                                 binding.week2ProgressBar.progress = (previousPercent + week2Percent).toInt()
                                 binding.week2PreviousTv.text = buildString {
@@ -250,7 +259,7 @@ class BudgetFragment : Fragment() {
                                 binding.week3AmountTv.text = weekExpenseAmount.toString()
                                 val previousPercent = binding.week2TotalTv.text.toString().replace("%", "").toFloat()
                                 val week3Percent =
-                                    String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                    String.format(Locale("en"),"%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
                                 binding.week3ProgressBar.max = 100
                                 binding.week3ProgressBar.progress = (previousPercent + week3Percent).toInt()
                                 binding.week3PreviousTv.text = buildString {
@@ -273,7 +282,7 @@ class BudgetFragment : Fragment() {
                                 binding.week4AmountTv.text = weekExpenseAmount.toString()
                                 val previousPercent = binding.week3TotalTv.text.toString().replace("%", "").toFloat()
                                 val week4Percent =
-                                    String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                    String.format(Locale("en"),"%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
                                 binding.week4ProgressBar.max = 100
                                 binding.week4ProgressBar.progress = (previousPercent + week4Percent).toInt()
                                 binding.week4PreviousTv.text = buildString {
@@ -296,7 +305,7 @@ class BudgetFragment : Fragment() {
                                 binding.week5AmountTv.text = weekExpenseAmount.toString()
                                 val previousPercent = binding.week4TotalTv.text.toString().replace("%", "").toFloat()
                                 val week5Percent =
-                                    String.format("%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
+                                    String.format(Locale("en"),"%.2f", ((weekExpenseAmount.toFloat() / totalBudget) * 100)).toFloat()
                                 binding.week5ProgressBar.max = 100
                                 binding.week5ProgressBar.progress = (previousPercent + week5Percent).toInt()
                                 binding.week5PreviousTv.text = buildString {

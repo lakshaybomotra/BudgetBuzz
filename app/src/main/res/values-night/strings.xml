@@ -34,7 +34,7 @@
     <string name="category_icon">Category Icon</string>
     <string name="cancel">Cancel</string>
     <string name="minusSign">-</string>
-    <string name="currencySign">$</string>
+    <string name="currencySign">₹</string>
     <string name="amount_hint_000">000</string>
     <string name="expense">Expense</string>
     <string name="income">Income</string>
@@ -89,4 +89,9 @@
     <string name="week_3">Week 3</string>
     <string name="week_4">Week 4</string>
     <string name="week_5">Week 5</string>
+    <string name="enter_email_and_password">Enter Email and Password</string>
+    <string name="password">Password</string>
+    <string name="you_have_exceeded_your_budget">You have exceeded your budget</string>
+    <string name="sad_smile">:(</string>
+    <string name="you_can_t_spend_anymore">You can\'t spend anymore</string>
 </resources>

@@ -87,6 +87,7 @@ class ActivityFragment : Fragment() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             fromDate = Timestamp(Date(2000 - 1900, 4, 1))
             toDate = Timestamp.now()
+            binding.selectedFilterTv.text = getString(R.string.all)
             transactionsViewModel.getUserTransaction()
         }
     }

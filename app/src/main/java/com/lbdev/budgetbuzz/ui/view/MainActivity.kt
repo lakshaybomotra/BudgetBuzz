@@ -20,17 +20,17 @@ class MainActivity : AppCompatActivity() {
         listOf(
             IntroSlide(
                 "Welcome to Budget Planner",
-                "Take control of your money and save them by tracking your expenses.",
+                "Track your expenses and take control of your money effortlessly.",
                 R.drawable.illustrationonboard1
             ),
             IntroSlide(
-                "Save money with ease",
-                "Take control of your money and save them by tracking your expenses.",
+                "Set Smart Goals",
+                "Plan your savings journey and achieve your financial objectives with ease.",
                 R.drawable.illustrationonboard2
             ),
             IntroSlide(
-                "Save money with ease",
-                "Take control of your money and save them by tracking your expenses.",
+                "Visualize Your Finances",
+                "Gain insights into your spending habits and make informed decisions.",
                 R.drawable.illustrationonboard3
             )
         )

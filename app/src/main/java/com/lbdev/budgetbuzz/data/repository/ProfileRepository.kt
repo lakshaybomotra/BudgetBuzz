@@ -1,6 +1,7 @@
 package com.lbdev.budgetbuzz.data.repository
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -18,6 +19,8 @@ class ProfileRepository(private val userProfileDao: UserProfileDao) {
     fun getUserProfile(uid: String) = userProfileDao.getProfile(uid)
 
     suspend fun saveUserProfile(profile: Profile) = userProfileDao.insertProfile(profile)
+
+    suspend fun deleteAllProfiles() = userProfileDao.deleteAllProfiles()
 
     fun saveProfileImage(image: Bitmap, callback: (String?, Exception?) -> Unit) {
         val imageName = UUID.randomUUID().toString()
@@ -64,6 +67,8 @@ class ProfileRepository(private val userProfileDao: UserProfileDao) {
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
                         val profile = document.toObject(Profile::class.java)
+                        Log.d("profileFetchId", "getProfile: ${profile?.userID} ")
+                        Log.d("profileFetch", "getProfile: $profile ")
                         callback(profile, null)
                     } else {
                         callback(null, null)
